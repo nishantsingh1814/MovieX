@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.eventx.moviex">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/moviex"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/moviex"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MovieActivities.MoviesActivity" />
+        <activity android:name=".MovieActivities.MoviesButtonHandleActivity" />
+        <activity android:name=".MovieActivities.MoviesDetailsActivity" />
+        <activity android:name=".MovieActivities.CastActivity" />
+        <activity android:name=".TvActivities.TvActivity" />
+        <activity android:name=".TvActivities.TvButtonHandleActivity" />
+        <activity android:name=".TvActivities.TvShowDetailsActivity" />
+        <activity android:name=".MovieActivities.MoviesSearchResults" />
+        <activity android:name=".TvActivities.TvSearchResults" />
+        <activity android:name=".TvActivities.SimilarTvShowsActivity" />
+        <activity android:name=".TvActivities.SingleEpisodeActivity" />
+        <activity android:name=".PeopleActivities.PopularPeopleActivity" />
+        <activity android:name=".PeopleActivities.PeopleSearchResultsActivity" />
+        <activity android:name=".PeopleActivities.PeopleDetailsActivity" />
+        <activity android:name=".PeopleActivities.PeopleImage" />
+    </application>
+
+</manifest>
