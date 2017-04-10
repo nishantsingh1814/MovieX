@@ -5,6 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/colorPrimaryLight"
+
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
@@ -12,15 +14,18 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
             android:paddingBottom="10dp"
             android:paddingLeft="5dp"
             android:paddingTop="10dp"
             android:text="Most Popular Movies"
+            android:textColor="@android:color/white"
             android:textSize="20dp"
             android:textStyle="bold" />
 
@@ -40,7 +45,7 @@
             android:layout_height="1dp"
             android:layout_gravity="bottom"
             android:layout_marginTop="5dp"
-            android:background="@color/colorDivider"
+            android:background="@android:color/darker_gray"
             app:layout_anchor="@id/movies_recycle_list"
             app:layout_anchorGravity="bottom"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
@@ -60,17 +65,56 @@
             />-->
 
         <Button
+            android:id="@+id/now_Showing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/ripple_bg"
+
+            android:fontFamily="sans-serif-condensed"
+            android:paddingLeft="5dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:text="Movies In Theatres"
+            android:textAlignment="viewStart"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/upcoming"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/ripple_bg"
+
+            android:fontFamily="sans-serif-condensed"
+            android:paddingLeft="5dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:text="Upcoming Movies"
+            android:textAlignment="viewStart"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+
+        <Button
             android:id="@+id/top_rated"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:background="@drawable/ripple_bg"
+
+            android:fontFamily="sans-serif-condensed"
             android:paddingLeft="5dp"
             android:paddingRight="10dp"
             android:paddingTop="10dp"
-            android:text="Top Rated"
+            android:text="Top Rated Movies"
             android:textAlignment="viewStart"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
 
         <!--<Button
             android:id="@+id/latest"
@@ -89,28 +133,21 @@
         <Button
             android:id="@+id/popular"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@drawable/ripple_bg"
-            android:paddingLeft="5dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp"
-            android:text="Most Popular"
-            android:textAlignment="viewStart"
-            android:textAllCaps="false" />
 
-        <Button
-            android:id="@+id/now_Showing"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:background="@drawable/ripple_bg"
+            android:fontFamily="sans-serif-condensed"
             android:paddingLeft="5dp"
             android:paddingRight="10dp"
             android:paddingTop="10dp"
-            android:text="Now Showing"
+            android:text="Most Popular Movies"
             android:textAlignment="viewStart"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

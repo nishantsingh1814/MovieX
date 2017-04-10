@@ -22,10 +22,10 @@
         android:id="@+id/cast_title"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
+        android:fontFamily="sans-serif-condensed"
         android:layout_gravity="center"
         android:scrollHorizontally="false"
-        android:textColor="@color/colorPrimaryText"
+        android:textColor="@android:color/white"
         android:textSize="16sp" />
 
 </LinearLayout>

@@ -55,6 +55,12 @@ public interface ApiInterface {
     @GET("movie/now_playing?api_key=3721a26d1b2c217fa0206eb8f4a368b8")
     Call<MovieResults> getNowShowing();
 
+    @GET("movie/upcoming?api_key=3721a26d1b2c217fa0206eb8f4a368b8&page=1&region=US")
+    Call<MovieResults> getUpcoming(@Query("page") int i,@Query("region") String m);
+
+
+    @GET("movie/{movie_id}/images?api_key=3721a26d1b2c217fa0206eb8f4a368b8")
+    Call<PosterResult> getMovieImages(@Path("movie_id") long movie_id);
 
     //Tv
 

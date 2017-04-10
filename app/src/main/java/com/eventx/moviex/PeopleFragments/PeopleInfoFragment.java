@@ -74,6 +74,9 @@ public class PeopleInfoFragment extends Fragment {
                         }
                     }
                 }
+                else {
+                    fetchData();
+                }
             }
 
             @Override

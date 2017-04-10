@@ -1,11 +1,13 @@
 package com.eventx.moviex.PeopleFragments;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +46,11 @@ public class PeopleTvFragment extends Fragment implements PeopleTvAdapter.ListIt
         peopleTvList = (RecyclerView) v.findViewById(R.id.people_movie_list);
         tvCreditses = new ArrayList<>();
         adapter = new PeopleTvAdapter(tvCreditses, getContext(), this);
-        peopleTvList.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            peopleTvList.setLayoutManager(new GridLayoutManager(getContext(), 5));
+        }else{
+            peopleTvList.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        }
         peopleTvList.setAdapter(adapter);
         peopleTvList.setNestedScrollingEnabled(false);
         fetchData();
@@ -59,9 +65,16 @@ public class PeopleTvFragment extends Fragment implements PeopleTvAdapter.ListIt
             movieCred.enqueue(new Callback<PeopleTvCast>() {
                 @Override
                 public void onResponse(Call<PeopleTvCast> call, Response<PeopleTvCast> response) {
-                    tvCreditses.clear();
-                    tvCreditses.addAll(response.body().getCast());
-                    adapter.notifyDataSetChanged();
+                    if (response.isSuccessful()) {
+                        tvCreditses.clear();
+
+                        tvCreditses.addAll(response.body().getCast());
+                        adapter.notifyDataSetChanged();
+                    }
+                    else
+                    {
+                        fetchData();
+                    }
                 }
 
                 @Override
@@ -77,6 +90,7 @@ public class PeopleTvFragment extends Fragment implements PeopleTvAdapter.ListIt
         Intent tvShowDetailsIntent = new Intent(getContext(), TvShowDetailsActivity.class);
         tvShowDetailsIntent.putExtra("id", tvCreditses.get(clickedPosition).getId());
         tvShowDetailsIntent.putExtra("title", tvCreditses.get(clickedPosition).getName());
+        tvShowDetailsIntent.putExtra("poster",tvCreditses.get(clickedPosition).getPoster_path());
         startActivity(tvShowDetailsIntent);
     }
 }

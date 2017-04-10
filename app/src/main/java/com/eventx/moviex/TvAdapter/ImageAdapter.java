@@ -1,6 +1,7 @@
 package com.eventx.moviex.TvAdapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.eventx.moviex.R;
+import com.eventx.moviex.SingleImageActivity;
 import com.eventx.moviex.TvModels.Poster;
 import com.squareup.picasso.Picasso;
 
@@ -49,6 +51,14 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageHolder>
         private ImageView poster;
         public ImageHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent imageViewIntent=new Intent(mContext, SingleImageActivity.class);
+                    imageViewIntent.putExtra("image",mPosters.get(getAdapterPosition()).getFile_path());
+                    mContext.startActivity(imageViewIntent);
+                }
+            });
             poster=(ImageView)itemView.findViewById(R.id.image_tv_show);
         }
     }

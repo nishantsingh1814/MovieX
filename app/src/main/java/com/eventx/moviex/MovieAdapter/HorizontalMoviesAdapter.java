@@ -69,7 +69,7 @@ public class HorizontalMoviesAdapter  extends RecyclerView.Adapter<HorizontalMov
         Movie movie=mMovie.get(position);
 
         Picasso.with(mContext).load("https://image.tmdb.org/t/p/w500"+movie.getPoster_path()).into(holder.movieImage);
-        holder.movieTitle.setText(position +1+". "+movie.getTitle());
+        holder.movieTitle.setText(movie.getTitle());
 
     }
 

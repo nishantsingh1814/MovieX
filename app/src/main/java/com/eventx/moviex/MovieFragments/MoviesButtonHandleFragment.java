@@ -60,6 +60,26 @@ public class MoviesButtonHandleFragment extends Fragment implements VerticalMovi
             return;
         }
 
+        if (getActivity()!=null&&getActivity().getIntent().getStringExtra("button").equals("Upcoming")) {
+            Call<MovieResults> popularJson = apiInterface.getUpcoming(i,"US");
+
+            popularJson.enqueue(new Callback<MovieResults>() {
+                @Override
+                public void onResponse(Call<MovieResults> call, Response<MovieResults> response) {
+                    if (response.isSuccessful()) {
+                        movieBtnHandle.addAll(response.body().getResults());
+                        adapter.notifyDataSetChanged();
+                        fetchData(i + 1);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<MovieResults> call, Throwable t) {
+                }
+
+            });
+        }
+
         if (getActivity()!=null&&getActivity().getIntent().getStringExtra("button").equals("Most Popular")) {
             Call<MovieResults> popularJson = apiInterface.getMostPop(i);
 

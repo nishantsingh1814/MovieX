@@ -48,6 +48,7 @@ public class TvButtonHandleActivity extends AppCompatActivity implements Tvbutto
         Intent moviesDetailIntent = new Intent(TvButtonHandleActivity.this, TvShowDetailsActivity.class);
         moviesDetailIntent.putExtra("id",show.getTvId());
         moviesDetailIntent.putExtra("title",show.getName());
+        moviesDetailIntent.putExtra("poster",show.getPoster_path());
         startActivity(moviesDetailIntent);
     }
 }

@@ -30,6 +30,7 @@ import com.eventx.moviex.R;
 import com.eventx.moviex.TvActivities.TvActivity;
 import com.eventx.moviex.TvActivities.TvSearchResults;
 import com.eventx.moviex.TvActivities.TvShowDetailsActivity;
+import com.eventx.moviex.Wishlist.WishlistAcitvity;
 
 import java.util.ArrayList;
 
@@ -44,6 +45,7 @@ public class PopularPeopleActivity extends AppCompatActivity implements Navigati
     ArrayList<PopularPeople> peoples;
     Button viewMore;
     private int page = 1;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +77,7 @@ public class PopularPeopleActivity extends AppCompatActivity implements Navigati
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         fetchData(page++);
@@ -164,9 +166,22 @@ public class PopularPeopleActivity extends AppCompatActivity implements Navigati
         if (item.getItemId() == R.id.nav_people) {
             startActivity(new Intent(PopularPeopleActivity.this, PopularPeopleActivity.class));
         }
+        if(item.getItemId()==R.id.nav_wishlist){
+            startActivity(new Intent(PopularPeopleActivity.this, WishlistAcitvity.class));
+
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        navigationView.getMenu().findItem(R.id.nav_Home).setChecked(false);
+        navigationView.getMenu().findItem(R.id.nav_movie).setChecked(false);
+        navigationView.getMenu().findItem(R.id.nav_people).setChecked(false);
+        navigationView.getMenu().findItem(R.id.nav_tv).setChecked(false);
+        navigationView.getMenu().findItem(R.id.nav_wishlist).setChecked(false);
     }
 
 

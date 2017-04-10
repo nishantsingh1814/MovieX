@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -28,6 +29,9 @@ import com.eventx.moviex.PeopleActivities.PopularPeopleActivity;
 import com.eventx.moviex.PeopleModels.PopularPeople;
 import com.eventx.moviex.R;
 import com.eventx.moviex.TvActivities.TvActivity;
+import com.eventx.moviex.TvActivities.TvImagesActivity;
+import com.eventx.moviex.TvActivities.TvShowDetailsActivity;
+import com.eventx.moviex.Wishlist.WishlistAcitvity;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -40,8 +44,8 @@ import retrofit2.Response;
 
 public class MoviesDetailsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    ImageButton mPlayTrailer;
-    ImageView mBackdropImage;
+
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,64 +55,20 @@ public class MoviesDetailsActivity extends AppCompatActivity implements Navigati
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setTitle(getIntent().getStringExtra("title"));
+        getSupportActionBar().setTitle("");
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        mPlayTrailer = (ImageButton) findViewById(R.id.movie_trailer);
-        mBackdropImage = (ImageView) findViewById(R.id.backdrop_image);
-        mPlayTrailer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                ApiInterface apiInterface = ApiClient.getApiInterface();
-                Call<ResultTrailer> keyResult = apiInterface.getTrailerKey(getIntent().getLongExtra("id", -1));
-                keyResult.enqueue(new Callback<ResultTrailer>() {
-                    @Override
-                    public void onResponse(Call<ResultTrailer> call, Response<ResultTrailer> response) {
-                        if (response.isSuccessful()) {
-                            if (response.body().getResults().size() == 0) {
-                                Snackbar.make(v, "No trailer Available", Snackbar.LENGTH_LONG).show();
-                                return;
-                            }
-                            String key = response.body().getResults().get(0).getKey();
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + key)));
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResultTrailer> call, Throwable t) {
-                    }
-                });
-            }
-        });
-        fetchData();
-
     }
 
-    private void fetchData() {
-        ApiInterface apiInterface = ApiClient.getApiInterface();
-        Call<MovieDetails> movieDetails = apiInterface.getMovieDetails(getIntent().getLongExtra("id", -1));
-        movieDetails.enqueue(new Callback<MovieDetails>() {
-            @Override
-            public void onResponse(Call<MovieDetails> call, Response<MovieDetails> response) {
-                if (response.isSuccessful()) {
-                    Picasso.with(MoviesDetailsActivity.this).load("https://image.tmdb.org/t/p/w500" + response.body().getBackdrop_path()).into(mBackdropImage);
-                }
-            }
 
-            @Override
-            public void onFailure(Call<MovieDetails> call, Throwable t) {
-
-            }
-        });
-
-    }
 
 
     @Override
@@ -137,8 +97,37 @@ public class MoviesDetailsActivity extends AppCompatActivity implements Navigati
         if(item.getItemId()==R.id.nav_people){
             startActivity(new Intent(MoviesDetailsActivity.this, PopularPeopleActivity.class));
         }
+        if(item.getItemId()==R.id.nav_wishlist){
+            startActivity(new Intent(MoviesDetailsActivity.this, WishlistAcitvity.class));
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        navigationView.getMenu().findItem(R.id.nav_Home).setChecked(false);
+        navigationView.getMenu().findItem(R.id.nav_movie).setChecked(false);
+        navigationView.getMenu().findItem(R.id.nav_people).setChecked(false);
+        navigationView.getMenu().findItem(R.id.nav_tv).setChecked(false);
+        navigationView.getMenu().findItem(R.id.nav_wishlist).setChecked(false);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.similar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.get_similar) {
+
+            Intent i = new Intent(MoviesDetailsActivity.this,MoviesImagesActivity.class );
+            i.putExtra("id", getIntent().getLongExtra("id", -1));
+            startActivity(i);
+        }
         return true;
     }
 }

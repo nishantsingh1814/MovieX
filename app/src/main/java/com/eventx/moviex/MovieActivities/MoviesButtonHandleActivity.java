@@ -25,7 +25,10 @@ public class MoviesButtonHandleActivity extends AppCompatActivity implements Mov
             getSupportActionBar().setTitle("Top 100 Rated Movies");
         }
         if (getIntent().getStringExtra("button").equals("Now Showing")) {
-            getSupportActionBar().setTitle("Now Showing");
+            getSupportActionBar().setTitle("Movies In Theatres");
+        }
+        if (getIntent().getStringExtra("button").equals("Upcoming")) {
+            getSupportActionBar().setTitle("Upcoming Movies");
         }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -38,6 +41,7 @@ public class MoviesButtonHandleActivity extends AppCompatActivity implements Mov
         Intent moviesDetailIntent = new Intent(MoviesButtonHandleActivity.this, MoviesDetailsActivity.class);
         moviesDetailIntent.putExtra("id",movieClass.getMovieId());
         moviesDetailIntent.putExtra("title",movieClass.getTitle());
+        moviesDetailIntent.putExtra("poster",movieClass.getPoster_path());
         startActivity(moviesDetailIntent);
     }
 

@@ -52,6 +52,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="bottom"
+                app:tabMaxWidth="0dp"
+                app:tabGravity="fill"
                 app:tabMode="fixed" />
         </android.support.design.widget.CollapsingToolbarLayout>
 

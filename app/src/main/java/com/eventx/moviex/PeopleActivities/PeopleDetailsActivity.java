@@ -37,6 +37,7 @@ import com.eventx.moviex.TvFragments.TvEpisodeFragment;
 import com.eventx.moviex.TvFragments.TvImagesFragment;
 import com.eventx.moviex.TvFragments.TvShowInfoFragment;
 import com.eventx.moviex.TvModels.TvShow;
+import com.eventx.moviex.Wishlist.WishlistAcitvity;
 import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
@@ -52,6 +53,7 @@ public class PeopleDetailsActivity extends AppCompatActivity implements Navigati
     private TabLayout mTablayout;
 
     private ImageView mProfileImage;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +102,7 @@ public class PeopleDetailsActivity extends AppCompatActivity implements Navigati
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         fetchData();
@@ -115,6 +117,9 @@ public class PeopleDetailsActivity extends AppCompatActivity implements Navigati
                 if (response.isSuccessful()) {
                     Picasso.with(PeopleDetailsActivity.this).load("https://image.tmdb.org/t/p/w500" + response.body().getProfile_path()).into(mProfileImage);
                 }
+                else {
+                    fetchData();
+                }
             }
 
             @Override
@@ -122,6 +127,15 @@ public class PeopleDetailsActivity extends AppCompatActivity implements Navigati
 
             }
         });
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        navigationView.getMenu().findItem(R.id.nav_Home).setChecked(false);
+        navigationView.getMenu().findItem(R.id.nav_movie).setChecked(false);
+        navigationView.getMenu().findItem(R.id.nav_people).setChecked(false);
+        navigationView.getMenu().findItem(R.id.nav_tv).setChecked(false);
+        navigationView.getMenu().findItem(R.id.nav_wishlist).setChecked(false);
     }
 
     @Override
@@ -148,6 +162,9 @@ public class PeopleDetailsActivity extends AppCompatActivity implements Navigati
         }
         if(item.getItemId()==R.id.nav_people){
             startActivity(new Intent(PeopleDetailsActivity.this, PopularPeopleActivity.class));
+        }
+        if(item.getItemId()==R.id.nav_wishlist){
+            startActivity(new Intent(PeopleDetailsActivity.this, WishlistAcitvity.class));
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

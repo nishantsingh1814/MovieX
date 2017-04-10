@@ -1,11 +1,13 @@
 package com.eventx.moviex.PeopleFragments;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +43,11 @@ public class PeopleMovieFragment extends Fragment implements PeopleMovieAdapter.
         peopleMovieList = (RecyclerView) v.findViewById(R.id.people_movie_list);
         movieCreditses = new ArrayList<>();
         adapter = new PeopleMovieAdapter(movieCreditses, getContext(), this);
-        peopleMovieList.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            peopleMovieList.setLayoutManager(new GridLayoutManager(getContext(), 5));
+        }else{
+            peopleMovieList.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        }
         peopleMovieList.setAdapter(adapter);
         peopleMovieList.setNestedScrollingEnabled(false);
         fetchData();
@@ -56,9 +62,15 @@ public class PeopleMovieFragment extends Fragment implements PeopleMovieAdapter.
             movieCred.enqueue(new Callback<PeopleMovieCast>() {
                 @Override
                 public void onResponse(Call<PeopleMovieCast> call, Response<PeopleMovieCast> response) {
-                    movieCreditses.clear();
-                    movieCreditses.addAll(response.body().getCast());
-                    adapter.notifyDataSetChanged();
+                    if(response.isSuccessful()) {
+                        movieCreditses.clear();
+                        movieCreditses.addAll(response.body().getCast());
+                        adapter.notifyDataSetChanged();
+                    }
+                    else
+                    {
+                        fetchData();
+                    }
                 }
 
                 @Override
@@ -75,6 +87,7 @@ public class PeopleMovieFragment extends Fragment implements PeopleMovieAdapter.
         Intent movieDetailsIntent = new Intent(getContext(), MoviesDetailsActivity.class);
         movieDetailsIntent.putExtra("id", movieCreditses.get(clickedPosition).getId());
         movieDetailsIntent.putExtra("title", movieCreditses.get(clickedPosition).getTitle());
+        movieDetailsIntent.putExtra("poster",movieCreditses.get(clickedPosition).getPoster_path());
         startActivity(movieDetailsIntent);
     }
 }

@@ -16,6 +16,16 @@ public class TvShowDetails {
     private long vote_count;
     private int number_of_seasons;
 
+    public String getBackdrop_path() {
+        return backdrop_path;
+    }
+
+    public void setBackdrop_path(String backdrop_path) {
+        this.backdrop_path = backdrop_path;
+    }
+
+    private String backdrop_path;
+
     public int getNumber_of_seasons() {
         return number_of_seasons;
     }

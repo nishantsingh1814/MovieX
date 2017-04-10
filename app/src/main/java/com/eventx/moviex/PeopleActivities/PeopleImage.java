@@ -1,5 +1,6 @@
 package com.eventx.moviex.PeopleActivities;
 
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -21,6 +22,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.activeandroid.Cache.getContext;
+
 public class PeopleImage extends AppCompatActivity {
 
     RecyclerView imageList;
@@ -34,7 +37,11 @@ public class PeopleImage extends AppCompatActivity {
         setContentView(R.layout.activity_people_image);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         imageList = (RecyclerView) findViewById(R.id.image_list);
-        imageList.setLayoutManager(new GridLayoutManager(this, 2));
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            imageList.setLayoutManager(new GridLayoutManager(getContext(), 5));
+        }else{
+            imageList.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        }
         images = new ArrayList<>();
         adapter = new ImageAdapter(images, this);
         imageList.setAdapter(adapter);
@@ -54,7 +61,6 @@ public class PeopleImage extends AppCompatActivity {
                     images.clear();
                     images.addAll(response.body().getProfiles());
                     adapter.notifyDataSetChanged();
-                } else {
                 }
             }
 

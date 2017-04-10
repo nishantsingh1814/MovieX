@@ -13,15 +13,7 @@ public class TvShow {
     private String poster_path;
 
 
-    public String getBackdrop_path() {
-        return backdrop_path;
-    }
 
-    public void setBackdrop_path(String backdrop_path) {
-        this.backdrop_path = backdrop_path;
-    }
-
-    private String backdrop_path;
 
     public String getPoster_path() {
         return poster_path;

@@ -78,6 +78,7 @@ public class MoviesSearchResults extends AppCompatActivity implements VerticalMo
         Intent movieDetailsIntent = new Intent(MoviesSearchResults.this, MoviesDetailsActivity.class);
         movieDetailsIntent.putExtra("id", searchResultMov.get(clickedPosition).getMovieId());
         movieDetailsIntent.putExtra("title", searchResultMov.get(clickedPosition).getTitle());
+        movieDetailsIntent.putExtra("poster",searchResultMov.get(clickedPosition).getPoster_path());
         startActivity(movieDetailsIntent);
     }
 }

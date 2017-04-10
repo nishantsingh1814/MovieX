@@ -3,13 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    android:background="?android:attr/selectableItemBackground"
+
     android:elevation="5dp"
     android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark"
         android:orientation="horizontal">
 
         <ImageView
@@ -30,8 +31,10 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="5dp"
                 android:paddingEnd="5dp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-condensed"
                 android:paddingTop="5dp"
-                android:textColor="#000000"
+                android:textColor="#ffffff"
                 android:textSize="16sp" />
 
             <LinearLayout
@@ -43,8 +46,10 @@
                 <TextView
                     android:id="@+id/brief_overview"
                     android:layout_width="match_parent"
+                    android:fontFamily="sans-serif-condensed"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
+                    android:textColor="#ffffff"
                     android:textSize="15sp" />
 
                 <LinearLayout
@@ -68,9 +73,11 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
                         android:gravity="bottom"
+                        android:fontFamily="sans-serif-condensed"
                         android:paddingBottom="5dp"
                         android:paddingEnd="5dp"
                         android:paddingTop="5dp"
+                        android:textColor="#ffffff"
                         android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>

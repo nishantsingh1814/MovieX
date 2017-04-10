@@ -18,8 +18,11 @@ import com.eventx.moviex.MainActivity;
 import com.eventx.moviex.PeopleActivities.PopularPeopleActivity;
 import com.eventx.moviex.R;
 import com.eventx.moviex.TvActivities.TvActivity;
+import com.eventx.moviex.Wishlist.WishlistAcitvity;
 
 public class MoviesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +38,8 @@ public class MoviesActivity extends AppCompatActivity implements NavigationView.
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
     @Override
@@ -46,6 +50,15 @@ public class MoviesActivity extends AppCompatActivity implements NavigationView.
         } else {
             super.onBackPressed();
         }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        navigationView.getMenu().findItem(R.id.nav_Home).setChecked(false);
+        navigationView.getMenu().findItem(R.id.nav_movie).setChecked(false);
+        navigationView.getMenu().findItem(R.id.nav_people).setChecked(false);
+        navigationView.getMenu().findItem(R.id.nav_tv).setChecked(false);
+        navigationView.getMenu().findItem(R.id.nav_wishlist).setChecked(false);
     }
 
 
@@ -64,33 +77,13 @@ public class MoviesActivity extends AppCompatActivity implements NavigationView.
         if(item.getItemId()==R.id.nav_people){
             startActivity(new Intent(MoviesActivity.this, PopularPeopleActivity.class));
         }
+        if(item.getItemId()==R.id.nav_wishlist){
+            startActivity(new Intent(MoviesActivity.this, WishlistAcitvity.class));
+
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater=getMenuInflater();
-        inflater.inflate(R.menu.menu_search,menu);
-        MenuItem item=menu.findItem(R.id.menu_search);
-        SearchView searchView=(SearchView)item.getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Intent searchResultIntent=new Intent(MoviesActivity.this,MoviesSearchResults.class);
-                searchResultIntent.putExtra("query",query);
-                startActivity(searchResultIntent);
 
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-                return false;
-            }
-        });
-
-        return super.onCreateOptionsMenu(menu);
-    }
 }

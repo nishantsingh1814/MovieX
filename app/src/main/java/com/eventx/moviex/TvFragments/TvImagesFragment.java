@@ -1,5 +1,6 @@
 package com.eventx.moviex.TvFragments;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -42,7 +43,11 @@ public class TvImagesFragment extends Fragment {
         View v=inflater.inflate(R.layout.tv_image_fragment,container,false);
 
         imageList=(RecyclerView)v.findViewById(R.id.image_list);
-        imageList.setLayoutManager(new GridLayoutManager(getContext(),2));
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            imageList.setLayoutManager(new GridLayoutManager(getContext(), 5));
+        }else{
+            imageList.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        }
         posters=new ArrayList<>();
         adapter=new ImageAdapter(posters,getContext());
         imageList.setAdapter(adapter);

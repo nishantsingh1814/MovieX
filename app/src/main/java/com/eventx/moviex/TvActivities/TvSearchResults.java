@@ -77,6 +77,7 @@ public class TvSearchResults extends AppCompatActivity implements VerticalTvAdap
         Intent tvShowDetailsIntent = new Intent(TvSearchResults.this, TvShowDetailsActivity.class);
         tvShowDetailsIntent.putExtra("id", searchResultTv.get(clickedPosition).getTvId());
         tvShowDetailsIntent.putExtra("title", searchResultTv.get(clickedPosition).getName());
+        tvShowDetailsIntent.putExtra("poster",searchResultTv.get(clickedPosition).getPoster_path());
         startActivity(tvShowDetailsIntent);
     }
 }
