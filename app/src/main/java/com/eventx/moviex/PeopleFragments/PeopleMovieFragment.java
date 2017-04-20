@@ -31,7 +31,7 @@ import retrofit2.Response;
  * Created by Nishant on 3/30/2017.
  */
 
-public class PeopleMovieFragment extends Fragment implements PeopleMovieAdapter.ListItemClickListener {
+public class PeopleMovieFragment extends Fragment  {
     private RecyclerView peopleMovieList;
     private ArrayList<MovieCredits> movieCreditses;
     private PeopleMovieAdapter adapter;
@@ -42,7 +42,7 @@ public class PeopleMovieFragment extends Fragment implements PeopleMovieAdapter.
         View v = inflater.inflate(R.layout.people_movie_fragment, container, false);
         peopleMovieList = (RecyclerView) v.findViewById(R.id.people_movie_list);
         movieCreditses = new ArrayList<>();
-        adapter = new PeopleMovieAdapter(movieCreditses, getContext(), this);
+        adapter = new PeopleMovieAdapter(movieCreditses, getContext());
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             peopleMovieList.setLayoutManager(new GridLayoutManager(getContext(), 5));
         }else{
@@ -82,12 +82,4 @@ public class PeopleMovieFragment extends Fragment implements PeopleMovieAdapter.
     }
 
 
-    @Override
-    public void onListItemClick(int clickedPosition) {
-        Intent movieDetailsIntent = new Intent(getContext(), MoviesDetailsActivity.class);
-        movieDetailsIntent.putExtra("id", movieCreditses.get(clickedPosition).getId());
-        movieDetailsIntent.putExtra("title", movieCreditses.get(clickedPosition).getTitle());
-        movieDetailsIntent.putExtra("poster",movieCreditses.get(clickedPosition).getPoster_path());
-        startActivity(movieDetailsIntent);
-    }
 }

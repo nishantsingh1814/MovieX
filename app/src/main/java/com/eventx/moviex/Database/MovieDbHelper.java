@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import static android.R.attr.id;
 import static android.R.attr.version;
 
 /**
@@ -24,6 +25,9 @@ public class MovieDbHelper extends SQLiteOpenHelper {
     public static final String COLUMN_TV_ID="tv_id";
     public static final String COLUMN_TV_TITLE="title";
     public static final String COLUMN_TV_POSTER="poster";
+
+    public static final String EPISODE_WATCHED_TABLE="epidoe_watched";
+    public static final String COLUMN_EPISODE_ID="episode_id";
     public MovieDbHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
     }
@@ -35,6 +39,7 @@ public class MovieDbHelper extends SQLiteOpenHelper {
 
         sqLiteDatabase.execSQL("CREATE TABLE "+TV_WISHLIST_TABLE+" ( "+COLUMN_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+COLUMN_TV_ID+" INTEGER, "+COLUMN_TV_POSTER+" TEXT, "+COLUMN_TV_TITLE+" TEXT)");
 
+        sqLiteDatabase.execSQL("CREATE TABLE "+EPISODE_WATCHED_TABLE+" ( "+COLUMN_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+COLUMN_EPISODE_ID+" INTEGER )");
 
     }
 
@@ -58,5 +63,13 @@ public class MovieDbHelper extends SQLiteOpenHelper {
             values.put(COLUMN_TV_POSTER, poster);
             db.insert(tableName, null, values);
         }
+
+    }
+    public void addToEpisode(SQLiteDatabase db,String tableName,long id){
+        ContentValues values=new ContentValues();
+        values.put(COLUMN_EPISODE_ID,id);
+        db.insert(tableName, null, values);
+
+
     }
 }

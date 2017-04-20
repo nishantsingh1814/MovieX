@@ -17,8 +17,11 @@
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:background="@android:color/white"
+        app:headerLayout="@layout/navigaion_header"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        android:elevation="16dp"
 
         app:menu="@menu/drawer_menu" />
 

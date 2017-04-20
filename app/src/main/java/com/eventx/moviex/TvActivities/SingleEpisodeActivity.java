@@ -85,4 +85,12 @@ public class SingleEpisodeActivity extends AppCompatActivity {
         }
         return true;
     }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.no_change,R.anim.slide_left);
+
+    }
 }

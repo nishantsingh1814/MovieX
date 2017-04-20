@@ -8,10 +8,11 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-    <include layout="@layout/app_bar_movies"
+    <include
+        layout="@layout/app_bar_movies"
 
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
     <android.support.design.widget.NavigationView
@@ -19,7 +20,11 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:elevation="16dp"
+
+        android:background="@android:color/white"
         android:fitsSystemWindows="true"
+        app:headerLayout="@layout/navigaion_header"
         app:menu="@menu/drawer_menu" />
 
 </android.support.v4.widget.DrawerLayout>

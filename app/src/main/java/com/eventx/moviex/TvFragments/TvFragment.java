@@ -68,6 +68,8 @@ public class TvFragment extends Fragment implements HorizontalTvAdapter.ListItem
                 Intent tvButtonHandleIntent = new Intent(getActivity(), TvButtonHandleActivity.class);
                 tvButtonHandleIntent.putExtra("button", "Most Popular");
                 startActivity(tvButtonHandleIntent);
+                getActivity().overridePendingTransition(R.anim.slide_right,R.anim.no_change);
+
             }
         });
         topRatedButton.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +78,8 @@ public class TvFragment extends Fragment implements HorizontalTvAdapter.ListItem
                 Intent tvButtonHandleIntent = new Intent(getActivity(), TvButtonHandleActivity.class);
                 tvButtonHandleIntent.putExtra("button", "Top Rated");
                 startActivity(tvButtonHandleIntent);
+                getActivity().overridePendingTransition(R.anim.slide_right,R.anim.no_change);
+
             }
         });
         tvTonightBtn.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +88,8 @@ public class TvFragment extends Fragment implements HorizontalTvAdapter.ListItem
                 Intent tvButtonHandleIntent = new Intent(getActivity(), TvButtonHandleActivity.class);
                 tvButtonHandleIntent.putExtra("button", "Tv Tonight");
                 startActivity(tvButtonHandleIntent);
+                getActivity().overridePendingTransition(R.anim.slide_right,R.anim.no_change);
+
             }
         });
         setHasOptionsMenu(true);
@@ -123,6 +129,7 @@ public class TvFragment extends Fragment implements HorizontalTvAdapter.ListItem
         tvShowDetailsIntent.putExtra("title", mTvShow.get(clickedPosition).getName());
         tvShowDetailsIntent.putExtra("poster",mTvShow.get(clickedPosition).getPoster_path());
         startActivity(tvShowDetailsIntent);
+        getActivity().overridePendingTransition(R.anim.slide_in,R.anim.no_change);
     }
 
     @Override

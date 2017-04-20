@@ -1,5 +1,6 @@
 package com.eventx.moviex.MovieAdapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -72,6 +73,8 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastHolder> {
                     peopleDetailIntent.putExtra("id", mCast.get(getAdapterPosition()).getId());
                     peopleDetailIntent.putExtra("title",mCast.get(getAdapterPosition()).getName());
                     mContext.startActivity(peopleDetailIntent);
+                    Activity act=(Activity)mContext;
+                    act.overridePendingTransition(R.anim.slide_right,R.anim.no_change);
                 }
             });
         }

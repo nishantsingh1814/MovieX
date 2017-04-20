@@ -191,5 +191,6 @@ public class PopularPeopleActivity extends AppCompatActivity implements Navigati
         peopleDetailIntent.putExtra("id", peoples.get(clickedPosition).getId());
         peopleDetailIntent.putExtra("title", peoples.get(clickedPosition).getName());
         startActivity(peopleDetailIntent);
+        overridePendingTransition(R.anim.slide_right,R.anim.no_change);
     }
 }

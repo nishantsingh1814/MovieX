@@ -27,7 +27,6 @@
             android:layout_marginBottom="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
-            android:textColor="#ffffff"
             android:textSize="15sp" />
 
         <TextView
@@ -38,7 +37,6 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:fontFamily="sans-serif-condensed"
-            android:textColor="#ffffff"
             android:textSize="15sp"
             android:textStyle="bold" />
 

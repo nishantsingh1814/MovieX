@@ -1,11 +1,17 @@
 package com.eventx.moviex.TvAdapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.support.transition.Fade;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.eventx.moviex.R;
@@ -56,7 +62,14 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageHolder>
                 public void onClick(View view) {
                     Intent imageViewIntent=new Intent(mContext, SingleImageActivity.class);
                     imageViewIntent.putExtra("image",mPosters.get(getAdapterPosition()).getFile_path());
-                    mContext.startActivity(imageViewIntent);
+
+                    if (Build.VERSION.SDK_INT >= 21) {
+                        ActivityOptionsCompat options = ActivityOptionsCompat.
+                                makeSceneTransitionAnimation((Activity) mContext, view, "trans");
+                        mContext.startActivity(imageViewIntent, options.toBundle());
+                    } else {
+                        mContext.startActivity(imageViewIntent);
+                    }
                 }
             });
             poster=(ImageView)itemView.findViewById(R.id.image_tv_show);

@@ -2,6 +2,7 @@ package com.eventx.moviex.MovieActivities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -12,6 +13,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -79,6 +82,7 @@ public class MoviesDetailsActivity extends AppCompatActivity implements Navigati
         } else {
             super.onBackPressed();
         }
+        overridePendingTransition(R.anim.no_change,R.anim.slide_out);
     }
 
 
@@ -117,12 +121,18 @@ public class MoviesDetailsActivity extends AppCompatActivity implements Navigati
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.similar_menu, menu);
+        MenuItem settingsMenuItem = menu.findItem(R.id.get_similar);
+        SpannableString s = new SpannableString(settingsMenuItem.getTitle());
+        s.setSpan(new ForegroundColorSpan(Color.BLACK), 0, s.length(), 0);
+        settingsMenuItem.setTitle(s);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.get_similar) {
+
+
 
             Intent i = new Intent(MoviesDetailsActivity.this,MoviesImagesActivity.class );
             i.putExtra("id", getIntent().getLongExtra("id", -1));

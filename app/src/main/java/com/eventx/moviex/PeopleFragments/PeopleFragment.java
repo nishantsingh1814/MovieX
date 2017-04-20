@@ -114,6 +114,7 @@ public class PeopleFragment extends Fragment implements PopularPeopleAdapter.Lis
         peopleDetailIntent.putExtra("id", peoples.get(clickedPosition).getId());
         peopleDetailIntent.putExtra("title", peoples.get(clickedPosition).getName());
         startActivity(peopleDetailIntent);
+        getActivity().overridePendingTransition(R.anim.slide_right,R.anim.no_change);
     }
 
     @Override

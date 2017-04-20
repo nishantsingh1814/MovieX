@@ -1,8 +1,11 @@
 package com.eventx.moviex.MovieFragments;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -37,7 +40,7 @@ import retrofit2.Response;
  * Created by Nishant on 3/27/2017.
  */
 
-public class MoviesFrament extends Fragment implements HorizontalMoviesAdapter.ListItemClickListener {
+public class MoviesFrament extends Fragment {
     private RecyclerView moviesRecyclerList;
     private HorizontalMoviesAdapter adapter;
     private ArrayList<Movie> mMovie;
@@ -62,6 +65,8 @@ public class MoviesFrament extends Fragment implements HorizontalMoviesAdapter.L
                 Intent mostPopularIntent = new Intent(getActivity(), MoviesButtonHandleActivity.class);
                 mostPopularIntent.putExtra("button", "Most Popular");
                 startActivity(mostPopularIntent);
+                getActivity().overridePendingTransition(R.anim.slide_right,R.anim.no_change);
+
             }
         });
         topRatedBtn = (Button) v.findViewById(R.id.top_rated);
@@ -71,6 +76,8 @@ public class MoviesFrament extends Fragment implements HorizontalMoviesAdapter.L
                 Intent mostPopularIntent = new Intent(getActivity(), MoviesButtonHandleActivity.class);
                 mostPopularIntent.putExtra("button", "Top Rated");
                 startActivity(mostPopularIntent);
+                getActivity().overridePendingTransition(R.anim.slide_right,R.anim.no_change);
+
             }
         });
         nowShowingBtn = (Button) v.findViewById(R.id.now_Showing);
@@ -80,6 +87,8 @@ public class MoviesFrament extends Fragment implements HorizontalMoviesAdapter.L
                 Intent mostPopularIntent = new Intent(getActivity(), MoviesButtonHandleActivity.class);
                 mostPopularIntent.putExtra("button", "Now Showing");
                 startActivity(mostPopularIntent);
+                getActivity().overridePendingTransition(R.anim.slide_right,R.anim.no_change);
+
             }
         });
         upcomingBtn = (Button) v.findViewById(R.id.upcoming);
@@ -89,10 +98,11 @@ public class MoviesFrament extends Fragment implements HorizontalMoviesAdapter.L
                 Intent mostPopularIntent = new Intent(getActivity(), MoviesButtonHandleActivity.class);
                 mostPopularIntent.putExtra("button", "Upcoming");
                 startActivity(mostPopularIntent);
+                getActivity().overridePendingTransition(R.anim.slide_right,R.anim.no_change);
             }
         });
         mMovie = new ArrayList<>();
-        adapter = new HorizontalMoviesAdapter(mMovie, getContext(), this);
+        adapter = new HorizontalMoviesAdapter(mMovie, getContext());
         moviesRecyclerList = (RecyclerView) v.findViewById(R.id.movies_recycle_list);
         moviesRecyclerList.setAdapter(adapter);
         setHasOptionsMenu(true);
@@ -120,19 +130,10 @@ public class MoviesFrament extends Fragment implements HorizontalMoviesAdapter.L
 
             @Override
             public void onFailure(Call<MovieResults> call, Throwable t) {
-
             }
         });
     }
 
-    @Override
-    public void onListItemClick(int clickedPosition) {
-        Intent movieDetailsIntent = new Intent(getActivity(), MoviesDetailsActivity.class);
-        movieDetailsIntent.putExtra("id", mMovie.get(clickedPosition).getMovieId());
-        movieDetailsIntent.putExtra("title", mMovie.get(clickedPosition).getTitle());
-        movieDetailsIntent.putExtra("poster",mMovie.get(clickedPosition).getPoster_path());
-        startActivity(movieDetailsIntent);
-    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -162,7 +163,6 @@ public class MoviesFrament extends Fragment implements HorizontalMoviesAdapter.L
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.i("poiuy", "onDestroyMovies: ");
 
     }
 }

@@ -13,6 +13,16 @@ public class Episodes implements Serializable{
     private int episode_number;
     private int season_number;
 
+    public boolean isWatched() {
+        return watched;
+    }
+
+    public void setWatched(boolean watched) {
+        this.watched = watched;
+    }
+
+    private boolean watched;
+
     public int getEpisode_number() {
         return episode_number;
     }

@@ -1,6 +1,10 @@
 package com.eventx.moviex.PeopleAdapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.eventx.moviex.MovieActivities.MoviesDetailsActivity;
 import com.eventx.moviex.PeopleModels.MovieCredits;
 import com.eventx.moviex.PeopleModels.PeopleMovieCast;
 import com.eventx.moviex.R;
@@ -26,14 +31,8 @@ public class PeopleMovieAdapter extends RecyclerView.Adapter<PeopleMovieAdapter.
     private Context mContext;
     private LayoutInflater inflater;
 
-    final private ListItemClickListener mOnClickListener;
 
-    public interface ListItemClickListener {
-        void onListItemClick(int clickedPosition);
-    }
-
-    public PeopleMovieAdapter(ArrayList<MovieCredits> popularPeoples, Context context, ListItemClickListener listener){
-        mOnClickListener = listener;
+    public PeopleMovieAdapter(ArrayList<MovieCredits> popularPeoples, Context context){
         mPeopleMovie =popularPeoples;
         mContext=context;
         inflater=LayoutInflater.from(context);
@@ -72,8 +71,15 @@ public class PeopleMovieAdapter extends RecyclerView.Adapter<PeopleMovieAdapter.
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int clickedPosition=getAdapterPosition();
-                    mOnClickListener.onListItemClick(clickedPosition);
+
+                    Intent movieDetailsIntent = new Intent(mContext, MoviesDetailsActivity.class);
+                    movieDetailsIntent.putExtra("id", mPeopleMovie.get(getAdapterPosition()).getId());
+                    movieDetailsIntent.putExtra("title", mPeopleMovie.get(getAdapterPosition()).getTitle());
+                    movieDetailsIntent.putExtra("poster",mPeopleMovie.get(getAdapterPosition()).getPoster_path());
+                    mContext.startActivity(movieDetailsIntent);
+                    Activity act=(Activity)mContext;
+                    act.overridePendingTransition(R.anim.slide_in,R.anim.no_change);
+
                 }
             });
         }

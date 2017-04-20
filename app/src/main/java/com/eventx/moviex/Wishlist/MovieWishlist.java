@@ -9,6 +9,16 @@ public class MovieWishlist {
     private String image;
     private long id;
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    private String category;
+
     public String getTitle() {
         return title;
     }

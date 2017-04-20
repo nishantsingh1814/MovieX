@@ -1,5 +1,6 @@
 package com.eventx.moviex.MovieActivities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -43,6 +44,7 @@ public class MoviesButtonHandleActivity extends AppCompatActivity implements Mov
         moviesDetailIntent.putExtra("title",movieClass.getTitle());
         moviesDetailIntent.putExtra("poster",movieClass.getPoster_path());
         startActivity(moviesDetailIntent);
+        overridePendingTransition(R.anim.slide_in,R.anim.no_change);
     }
 
     @Override
@@ -50,6 +52,14 @@ public class MoviesButtonHandleActivity extends AppCompatActivity implements Mov
         if(item.getItemId()==android.R.id.home){
             onBackPressed();
         }
+
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.no_change,R.anim.slide_left);
+
     }
 }

@@ -25,7 +25,6 @@
             android:paddingLeft="5dp"
             android:paddingTop="10dp"
             android:text="Most Popular Movies"
-            android:textColor="@android:color/white"
             android:textSize="20dp"
             android:textStyle="bold" />
 
@@ -78,7 +77,6 @@
             android:text="Movies In Theatres"
             android:textAlignment="viewStart"
             android:textAllCaps="false"
-            android:textColor="@android:color/white"
             android:textStyle="bold" />
 
         <Button
@@ -95,7 +93,6 @@
             android:text="Upcoming Movies"
             android:textAlignment="viewStart"
             android:textAllCaps="false"
-            android:textColor="@android:color/white"
             android:textStyle="bold" />
 
 
@@ -113,7 +110,6 @@
             android:text="Top Rated Movies"
             android:textAlignment="viewStart"
             android:textAllCaps="false"
-            android:textColor="@android:color/white"
             android:textStyle="bold" />
 
         <!--<Button
@@ -144,7 +140,6 @@
             android:text="Most Popular Movies"
             android:textAlignment="viewStart"
             android:textAllCaps="false"
-            android:textColor="@android:color/white"
             android:textStyle="bold" />
 
 

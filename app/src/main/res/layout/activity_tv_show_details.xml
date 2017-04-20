@@ -11,15 +11,20 @@
 
     <fragment
         android:id="@+id/tv_info_frag"
+
         android:name="com.eventx.moviex.TvFragments.TvShowInfoFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:layout="@layout/tv_show_info_fragment" />
+        tools:layout="@layout/temp_layout" />
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:background="@android:color/white"
+        app:headerLayout="@layout/navigaion_header"
+        android:elevation="16dp"
+
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:menu="@menu/drawer_menu" />

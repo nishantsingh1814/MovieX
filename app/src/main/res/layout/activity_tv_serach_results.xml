@@ -15,6 +15,7 @@
             android:id="@+id/search_tv"
             android:layout_margin="5dp"
             android:layout_width="match_parent"
+            android:textColor="@android:color/black"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center_horizontal"
             android:gravity="center_horizontal"

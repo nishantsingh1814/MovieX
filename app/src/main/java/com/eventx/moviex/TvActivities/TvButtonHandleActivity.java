@@ -44,11 +44,19 @@ public class TvButtonHandleActivity extends AppCompatActivity implements Tvbutto
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.no_change,R.anim.slide_left);
+
+    }
+
+    @Override
     public void verticalTvClick(TvShow show) {
         Intent moviesDetailIntent = new Intent(TvButtonHandleActivity.this, TvShowDetailsActivity.class);
         moviesDetailIntent.putExtra("id",show.getTvId());
         moviesDetailIntent.putExtra("title",show.getName());
         moviesDetailIntent.putExtra("poster",show.getPoster_path());
         startActivity(moviesDetailIntent);
+        overridePendingTransition(R.anim.slide_in,R.anim.no_change);
     }
 }

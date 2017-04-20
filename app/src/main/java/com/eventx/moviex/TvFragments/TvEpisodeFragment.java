@@ -35,6 +35,8 @@ public class TvEpisodeFragment extends Fragment implements EpisodeAdapter.ListIt
     ArrayList<Episodes> mEpisode;
     EpisodeAdapter adapter;
 
+    int seasonNumber;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -44,18 +46,28 @@ public class TvEpisodeFragment extends Fragment implements EpisodeAdapter.ListIt
         adapter = new EpisodeAdapter(mEpisode, getContext(), this);
         episodeList.setAdapter(adapter);
         mEpisode.clear();
+        seasonNumber = getArguments().getInt("season_number", -1);
 
-
-        fetchData(1);
+        fetchData();
         return v;
     }
 
+    public static TvEpisodeFragment newInstance(int exampleInt) {
+        TvEpisodeFragment fragment = new TvEpisodeFragment();
 
-    private void fetchData(final int i) {
+        Bundle args = new Bundle();
+        args.putInt("season_number", exampleInt);
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
+
+    private void fetchData() {
 
         ApiInterface apiInterface = ApiClient.getApiInterface();
-        if(getActivity()!=null) {
-            Call<EpisodeResults> results = apiInterface.getEpisodeResults(getActivity().getIntent().getLongExtra("id", -1), i);
+        if (getActivity() != null) {
+            Call<EpisodeResults> results = apiInterface.getEpisodeResults(getActivity().getIntent().getLongExtra("id", -1), seasonNumber);
 
             results.enqueue(new Callback<EpisodeResults>() {
                 @Override
@@ -63,9 +75,8 @@ public class TvEpisodeFragment extends Fragment implements EpisodeAdapter.ListIt
                     if (response.isSuccessful()) {
                         mEpisode.addAll(response.body().getEpisodes());
                         adapter.notifyDataSetChanged();
-                        fetchData(i + 1);
-                    } else {
-                        return;
+                    }else{
+                        fetchData();
                     }
 
 
@@ -81,8 +92,10 @@ public class TvEpisodeFragment extends Fragment implements EpisodeAdapter.ListIt
     @Override
     public void onListItemClick(int clickedPosition) {
         Intent episodeDetailIntent = new Intent(getContext(), SingleEpisodeActivity.class);
-        episodeDetailIntent.putExtra("tvShow",getActivity().getIntent().getStringExtra("title"));
+        episodeDetailIntent.putExtra("tvShow", getActivity().getIntent().getStringExtra("title"));
         episodeDetailIntent.putExtra("Episode", mEpisode.get(clickedPosition));
         startActivity(episodeDetailIntent);
+        getActivity().overridePendingTransition(R.anim.slide_right, R.anim.no_change);
+
     }
 }

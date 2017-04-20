@@ -1,10 +1,13 @@
 package com.eventx.moviex.PeopleActivities;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -15,9 +18,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
@@ -31,6 +37,7 @@ import com.eventx.moviex.PeopleFragments.PeopleMovieFragment;
 import com.eventx.moviex.PeopleFragments.PeopleTvFragment;
 import com.eventx.moviex.PeopleModels.PeopleInfo;
 import com.eventx.moviex.R;
+import com.eventx.moviex.SingleImageActivity;
 import com.eventx.moviex.TvActivities.TvActivity;
 import com.eventx.moviex.TvActivities.TvShowDetailsActivity;
 import com.eventx.moviex.TvFragments.TvEpisodeFragment;
@@ -54,6 +61,7 @@ public class PeopleDetailsActivity extends AppCompatActivity implements Navigati
 
     private ImageView mProfileImage;
     private NavigationView navigationView;
+    private String poster_path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +77,21 @@ public class PeopleDetailsActivity extends AppCompatActivity implements Navigati
         getSupportActionBar().setTitle(getIntent().getStringExtra("title"));
 
         mProfileImage = (ImageView) findViewById(R.id.people_profile_image);
+        mProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent imageViewIntent=new Intent(PeopleDetailsActivity.this, SingleImageActivity.class);
+                imageViewIntent.putExtra("image",poster_path);
+
+                if (Build.VERSION.SDK_INT >= 21) {
+                    ActivityOptionsCompat options = ActivityOptionsCompat.
+                            makeSceneTransitionAnimation(PeopleDetailsActivity.this, view, "trans");
+                    startActivity(imageViewIntent, options.toBundle());
+                } else {
+                    startActivity(imageViewIntent);
+                }
+            }
+        });
 
 
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
@@ -115,6 +138,7 @@ public class PeopleDetailsActivity extends AppCompatActivity implements Navigati
             @Override
             public void onResponse(Call<PeopleInfo> call, Response<PeopleInfo> response) {
                 if (response.isSuccessful()) {
+                    poster_path=response.body().getProfile_path();
                     Picasso.with(PeopleDetailsActivity.this).load("https://image.tmdb.org/t/p/w500" + response.body().getProfile_path()).into(mProfileImage);
                 }
                 else {
@@ -146,6 +170,7 @@ public class PeopleDetailsActivity extends AppCompatActivity implements Navigati
         } else {
             super.onBackPressed();
         }
+        overridePendingTransition(R.anim.no_change,R.anim.slide_left);
     }
 
     @Override
@@ -206,6 +231,10 @@ public class PeopleDetailsActivity extends AppCompatActivity implements Navigati
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.people_image_menu, menu);
+        MenuItem settingsMenuItem = menu.findItem(R.id.people_images);
+        SpannableString s = new SpannableString(settingsMenuItem.getTitle());
+        s.setSpan(new ForegroundColorSpan(Color.BLACK), 0, s.length(), 0);
+        settingsMenuItem.setTitle(s);
         return true;
     }
 

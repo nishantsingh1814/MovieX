@@ -27,7 +27,6 @@
             android:fontFamily="sans-serif-condensed"
             android:layout_alignBottom="@id/movie_image"
             android:scrollHorizontally="false"
-            android:textColor="@android:color/white"
             android:textSize="13sp" />
 
     </RelativeLayout>

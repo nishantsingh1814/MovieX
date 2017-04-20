@@ -13,9 +13,6 @@
         android:roundIcon="@mipmap/final_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,7 +38,14 @@
         <activity android:name=".TvActivities.TvImagesActivity" />
         <activity android:name=".SingleImageActivity" />
         <activity android:name=".MovieActivities.MoviesImagesActivity" />
-        <activity android:name=".Wishlist.WishlistAcitvity"></activity>
+        <activity
+            android:name=".Wishlist.WishlistAcitvity"
+            android:theme="@style/WishlistTheme" />
+        <activity
+            android:name=".YoutubeActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name=".SampleActiv"></activity>
+        <activity android:name=".TvActivities.SeasonActivity"></activity>
     </application>
 
 </manifest>

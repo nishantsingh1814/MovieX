@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1061828605992",
+    "firebase_url": "https://moviex-d5654.firebaseio.com",
+    "project_id": "moviex-d5654",
+    "storage_bucket": "moviex-d5654.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1061828605992:android:aacaa33892c5dc59",
+        "android_client_info": {
+          "package_name": "com.eventx.moviex"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1061828605992-d9f8m139r09m3jdbjnct5vd010itt88u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.eventx.moviex",
+            "certificate_hash": "f44c3e237340b1295f6548039ef1dd413f1a1ff4"
+          }
+        },
+        {
+          "client_id": "1061828605992-8f4a0hls17nodrco8np57jtou5pthnpm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4WOdz7u0eCDx7MAW2tvFE_39jrkniIFc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1061828605992-8f4a0hls17nodrco8np57jtou5pthnpm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

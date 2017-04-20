@@ -17,7 +17,6 @@
             android:textSize="16sp"
             android:id="@+id/people_name"
             android:background="#A6000000"
-            android:textColor="@android:color/white"
             android:textStyle="bold"
             android:fontFamily="sans-serif-condensed"
             android:gravity="center_horizontal"

@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +35,11 @@ import com.eventx.moviex.MovieAdapter.HorizontalMoviesAdapter;
 import com.eventx.moviex.Network.ApiClient;
 import com.eventx.moviex.Network.ApiInterface;
 import com.eventx.moviex.R;
+import com.eventx.moviex.SingleImageActivity;
 import com.eventx.moviex.Wishlist.WishlistAcitvity;
+import com.eventx.moviex.YoutubeActivity;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -48,7 +55,7 @@ import retrofit2.Response;
  * Created by Nishant on 3/27/2017.
  */
 
-public class MovieDetailFragment extends Fragment implements HorizontalMoviesAdapter.ListItemClickListener {
+public class MovieDetailFragment extends Fragment{
     TextView genreTv;
     TextView runtimeTv;
     TextView overviewTv;
@@ -85,15 +92,34 @@ public class MovieDetailFragment extends Fragment implements HorizontalMoviesAda
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+
+        postponeEnterTransition();
         View v = inflater.inflate(R.layout.movie_details_frag, container, false);
+
         similar = new ArrayList<>();
-        adapter = new HorizontalMoviesAdapter(similar, getContext(), this);
+        adapter = new HorizontalMoviesAdapter(similar, getContext());
         genreTv = (TextView) v.findViewById(R.id.movie_genre);
         runtimeTv = (TextView) v.findViewById(R.id.movie_runtime);
         viewMoreBtn = (Button) v.findViewById(R.id.view_more);
         movieTitle = (TextView) v.findViewById(R.id.movie_detail_title);
         overviewTv = (TextView) v.findViewById(R.id.movie_overview);
         mMoviePoster = (ImageView) v.findViewById(R.id.movie_image);
+
+        mMoviePoster.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent imageViewIntent=new Intent(getContext(), SingleImageActivity.class);
+                imageViewIntent.putExtra("image",mMovie.getPoster_path());
+
+                if (Build.VERSION.SDK_INT >= 21) {
+                    ActivityOptionsCompat options = ActivityOptionsCompat.
+                            makeSceneTransitionAnimation(getActivity(), view, "trans");
+                    startActivity(imageViewIntent, options.toBundle());
+                } else {
+                    startActivity(imageViewIntent);
+                }
+            }
+        });
         mMovieRatings = (TextView) v.findViewById(R.id.movie_rating);
         mGenreTv = (TextView) v.findViewById(R.id.genre_tv);
         mReleaseTv = (TextView) v.findViewById(R.id.movie_release_date);
@@ -139,7 +165,9 @@ public class MovieDetailFragment extends Fragment implements HorizontalMoviesAda
                                 return;
                             }
                             String key = response.body().getResults().get(0).getKey();
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + key)));
+                            Intent youtubeIntent=new Intent(getContext(), YoutubeActivity.class) ;
+                            youtubeIntent.putExtra("videoKey",key);
+                            startActivity(youtubeIntent);
                         }
                     }
 
@@ -178,6 +206,7 @@ public class MovieDetailFragment extends Fragment implements HorizontalMoviesAda
 
 
         fetchData();
+
         return v;
     }
 
@@ -202,28 +231,10 @@ public class MovieDetailFragment extends Fragment implements HorizontalMoviesAda
         setWishlistBtn();
     }
 
+
     private void fetchData() {
 
         ApiInterface apiInterface = ApiClient.getApiInterface();
-
-        Call<CastResults> movieCast = apiInterface.getCast(movieId);
-        movieCast.enqueue(new Callback<CastResults>() {
-
-            @Override
-            public void onResponse(Call<CastResults> call, Response<CastResults> response) {
-                if (response.isSuccessful()) {
-                    ArrayList<Cast> castJson = response.body().getCast();
-                    cast.clear();
-                    cast.addAll(castJson);
-                    castAdapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<CastResults> call, Throwable t) {
-
-            }
-        });
 
 
         Call<MovieDetails> movieDetails = apiInterface.getMovieDetails(movieId);
@@ -231,7 +242,8 @@ public class MovieDetailFragment extends Fragment implements HorizontalMoviesAda
             @Override
             public void onResponse(Call<MovieDetails> call, Response<MovieDetails> response) {
                 if (response.isSuccessful()) {
-
+                    Picasso.with(getActivity()).load("https://image.tmdb.org/t/p/w500" + response.body().getPoster_path()).into(mMoviePoster);
+                    startPostponedEnterTransition();
                     Picasso.with(getContext()).load("https://image.tmdb.org/t/p/w500" + response.body().getBackdrop_path()).into(mBackdropImage);
                     movieTitle.setText(response.body().getTitle());
                     mMovie = response.body();
@@ -240,7 +252,7 @@ public class MovieDetailFragment extends Fragment implements HorizontalMoviesAda
                     int hour = mMovie.getRuntime() / 60;
                     int minute = mMovie.getRuntime() % 60;
                     runtimeTv.setText(hour + " hrs " + minute + " mins ");
-                    Picasso.with(getActivity()).load("https://image.tmdb.org/t/p/w500" + mMovie.getPoster_path()).into(mMoviePoster);
+
                     mTagline.setText(mMovie.getTagline());
                     SimpleDateFormat sdf = new SimpleDateFormat("MMM d,yyyy");
 
@@ -298,17 +310,27 @@ public class MovieDetailFragment extends Fragment implements HorizontalMoviesAda
 
             }
         });
+        Call<CastResults> movieCast = apiInterface.getCast(movieId);
+        movieCast.enqueue(new Callback<CastResults>() {
 
+            @Override
+            public void onResponse(Call<CastResults> call, Response<CastResults> response) {
+                if (response.isSuccessful()) {
+                    ArrayList<Cast> castJson = response.body().getCast();
+                    cast.clear();
+                    cast.addAll(castJson);
+                    castAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CastResults> call, Throwable t) {
+
+            }
+        });
 
     }
 
-    @Override
-    public void onListItemClick(int clickedPosition) {
-        Intent movieDetailsIntent = new Intent(getActivity(), MoviesDetailsActivity.class);
-        movieDetailsIntent.putExtra("id", similar.get(clickedPosition).getMovieId());
-        movieDetailsIntent.putExtra("title", similar.get(clickedPosition).getTitle());
-        movieDetailsIntent.putExtra("poster",similar.get(clickedPosition).getPoster_path());
-        startActivity(movieDetailsIntent);
-    }
+
 
 }

@@ -1,18 +1,23 @@
 package com.eventx.moviex.TvFragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -25,6 +30,8 @@ import com.eventx.moviex.MovieModels.ResultTrailer;
 import com.eventx.moviex.Network.ApiClient;
 import com.eventx.moviex.Network.ApiInterface;
 import com.eventx.moviex.R;
+import com.eventx.moviex.SingleImageActivity;
+import com.eventx.moviex.TvActivities.SeasonActivity;
 import com.eventx.moviex.TvActivities.TvShowDetailsActivity;
 import com.eventx.moviex.TvActivities.TvShowEpisodeActivity;
 import com.eventx.moviex.TvAdapter.HorizontalTvAdapter;
@@ -32,6 +39,8 @@ import com.eventx.moviex.TvAdapter.TvCastAdapter;
 import com.eventx.moviex.TvModels.TvResults;
 import com.eventx.moviex.TvModels.TvShow;
 import com.eventx.moviex.TvModels.TvShowDetails;
+import com.eventx.moviex.YoutubeActivity;
+import com.google.android.gms.ads.AdView;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -64,6 +73,7 @@ public class TvShowInfoFragment extends Fragment implements HorizontalTvAdapter.
     ArrayList<TvShow> similar;
     Button wishlistBtn;
 
+
     long tvId;
 
     MovieDbHelper helper;
@@ -73,13 +83,19 @@ public class TvShowInfoFragment extends Fragment implements HorizontalTvAdapter.
 
     private ImageView mBackdropImage;
     private ImageButton mPlayButton;
+    private AdView mAdView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+
+        postponeEnterTransition();
         View v = inflater.inflate(R.layout.tv_show_info_fragment, container, false);
         tvGenre = (TextView) v.findViewById(R.id.tv_genre);
+//        mAdView = (AdView) v.findViewById(R.id.adView);
+//        AdRequest adRequest = new AdRequest.Builder().build();
+//        mAdView.loadAd(adRequest);
         title = (TextView) v.findViewById(R.id.show_detail_title);
         overviewTv = (TextView) v.findViewById(R.id.tv_show_overview);
         mTvRatings = (TextView) v.findViewById(R.id.show_ratings);
@@ -94,15 +110,32 @@ public class TvShowInfoFragment extends Fragment implements HorizontalTvAdapter.
         viewAllEpisodes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent allEpisodesIntent = new Intent(getContext(), TvShowEpisodeActivity.class);
+                Intent allEpisodesIntent = new Intent(getContext(), SeasonActivity.class);
                 allEpisodesIntent.putExtra("id", getActivity().getIntent().getLongExtra("id", -1));
                 allEpisodesIntent.putExtra("title", getActivity().getIntent().getStringExtra("title"));
+                allEpisodesIntent.putExtra("seasons",mShow.getNumber_of_seasons());
                 startActivity(allEpisodesIntent);
             }
         });
 
         mCast = new ArrayList<>();
         poster = (ImageView) v.findViewById(R.id.show_image);
+
+        poster.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent imageViewIntent=new Intent(getContext(), SingleImageActivity.class);
+                imageViewIntent.putExtra("image",mShow.getPoster_path());
+
+                if (Build.VERSION.SDK_INT >= 21) {
+                    ActivityOptionsCompat options = ActivityOptionsCompat.
+                            makeSceneTransitionAnimation(getActivity(), view, "trans");
+                    startActivity(imageViewIntent, options.toBundle());
+                } else {
+                    startActivity(imageViewIntent);
+                }
+            }
+        });
         adapter = new TvCastAdapter(mCast, getContext());
         tv_show_cast = (RecyclerView) v.findViewById(R.id.tv_cast_recycle_list);
         tv_show_cast.setAdapter(adapter);
@@ -132,7 +165,9 @@ public class TvShowInfoFragment extends Fragment implements HorizontalTvAdapter.
                                 return;
                             }
                             String key = response.body().getResults().get(0).getKey();
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + key)));
+                            Intent youtubeIntent=new Intent(getContext(), YoutubeActivity.class) ;
+                            youtubeIntent.putExtra("videoKey",key);
+                            startActivity(youtubeIntent);
                         }
 
                     }
@@ -197,7 +232,7 @@ public class TvShowInfoFragment extends Fragment implements HorizontalTvAdapter.
     }
 
     private void fetchData() {
-        ApiInterface apiInterface = ApiClient.getApiInterface();
+        final ApiInterface apiInterface = ApiClient.getApiInterface();
         if (getActivity() != null) {
             Call<TvShowDetails> tvShowDetails = apiInterface.getSingleTvShowDetails(getActivity().getIntent().getLongExtra("id", -1));
 
@@ -205,6 +240,8 @@ public class TvShowInfoFragment extends Fragment implements HorizontalTvAdapter.
                 @Override
                 public void onResponse(Call<TvShowDetails> call, Response<TvShowDetails> response) {
                     if (response.isSuccessful()) {
+                        Picasso.with(getContext()).load("https://image.tmdb.org/t/p/w500" + response.body().getPoster_path()).into(poster);
+                        startPostponedEnterTransition();
                         title.setText(response.body().getName());
                         Picasso.with(getContext()).load("https://image.tmdb.org/t/p/w500" + response.body().getBackdrop_path()).into(mBackdropImage);
                         mShow = response.body();
@@ -215,7 +252,6 @@ public class TvShowInfoFragment extends Fragment implements HorizontalTvAdapter.
                                 tvGenre.append(mShow.getGenres().get(i).getName());
                             }
                         }
-                        Picasso.with(getContext()).load("https://image.tmdb.org/t/p/w500" + response.body().getPoster_path()).into(poster);
                         overviewTv.setText(mShow.getOverview());
                         mTvRatings.setText(mShow.getVote_average() + " (" + mShow.getVote_count() + ")");
                         SimpleDateFormat sdf = new SimpleDateFormat("MMM d,yyyy");
@@ -287,6 +323,9 @@ public class TvShowInfoFragment extends Fragment implements HorizontalTvAdapter.
             });
         }
 
+
+
+
     }
 
     @Override
@@ -296,5 +335,7 @@ public class TvShowInfoFragment extends Fragment implements HorizontalTvAdapter.
         tvShowDetailsIntent.putExtra("title", similar.get(clickedPosition).getName());
         tvShowDetailsIntent.putExtra("poster",similar.get(clickedPosition).getPoster_path());
         startActivity(tvShowDetailsIntent);
+        getActivity().overridePendingTransition(R.anim.slide_in,R.anim.no_change);
+
     }
 }

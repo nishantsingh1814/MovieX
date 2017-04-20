@@ -103,6 +103,10 @@ public interface ApiInterface {
     @GET("tv/airing_today?api_key=3721a26d1b2c217fa0206eb8f4a368b8")
     Call<TvResults> getTonightAir();
 
+
+
+
+
     //People
     @GET("person/popular?api_key=3721a26d1b2c217fa0206eb8f4a368b8")
     Call<PopularResults> getPopularPeople(@Query("page") int page);
@@ -121,6 +125,9 @@ public interface ApiInterface {
 
     @GET("person/{person_id}/images?api_key=3721a26d1b2c217fa0206eb8f4a368b8")
     Call<PeopleImageResults> getPeopleImages(@Path("person_id") long person_id);
+
+
+
 
 
 

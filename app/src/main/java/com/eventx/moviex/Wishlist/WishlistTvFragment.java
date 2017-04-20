@@ -25,7 +25,7 @@ import java.util.ArrayList;
  * Created by Nishant on 4/7/2017.
  */
 
-public class WishlistTvFragment extends Fragment implements VerticalWishlistAdapter.ListItemClickListener {
+public class WishlistTvFragment extends Fragment{
     RecyclerView wishlist;
     VerticalWishlistAdapter adapter;
     ArrayList<MovieWishlist> details;
@@ -42,11 +42,10 @@ public class WishlistTvFragment extends Fragment implements VerticalWishlistAdap
         }else{
             wishlist.setLayoutManager(new GridLayoutManager(getContext(), 3));
         }
-        adapter = new VerticalWishlistAdapter(details, getContext(), this);
+        adapter = new VerticalWishlistAdapter(details, getContext());
         wishlist.setAdapter(adapter);
 
         setUpViews();
-        adapter.notifyDataSetChanged();
         return v;
     }
 
@@ -61,8 +60,12 @@ public class WishlistTvFragment extends Fragment implements VerticalWishlistAdap
             movie.setTitle(c.getString(c.getColumnIndex(MovieDbHelper.COLUMN_TV_TITLE)));
             movie.setImage(c.getString(c.getColumnIndex(MovieDbHelper.COLUMN_TV_POSTER)));
             movie.setId(c.getLong(c.getColumnIndex(MovieDbHelper.COLUMN_TV_ID)));
+            movie.setCategory("Tv");
+
             details.add(movie);
         }
+        adapter.notifyDataSetChanged();
+
         c.close();
     }
 
@@ -72,12 +75,5 @@ public class WishlistTvFragment extends Fragment implements VerticalWishlistAdap
         setUpViews();
     }
 
-    @Override
-    public void itemClickListener(int clickedPosition) {
-        Intent movieDetailsIntent = new Intent(getContext(), TvShowDetailsActivity.class);
-        movieDetailsIntent.putExtra("id", details.get(clickedPosition).getId());
-        movieDetailsIntent.putExtra("title", details.get(clickedPosition).getTitle());
-        movieDetailsIntent.putExtra("poster", details.get(clickedPosition).getImage());
-        startActivity(movieDetailsIntent);
-    }
+
 }
