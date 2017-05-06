@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import com.eventx.moviex.MainActivity;
 import com.eventx.moviex.MovieActivities.MoviesActivity;
 import com.eventx.moviex.MovieActivities.MoviesDetailsActivity;
+import com.eventx.moviex.MovieFragments.NavigationDrawerFragment;
 import com.eventx.moviex.Network.ApiClient;
 import com.eventx.moviex.Network.ApiInterface;
 import com.eventx.moviex.PeopleFragments.PeopleInfoFragment;
@@ -54,7 +55,7 @@ import retrofit2.Response;
 import static android.R.attr.id;
 import static android.R.attr.start;
 
-public class PeopleDetailsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class PeopleDetailsActivity extends AppCompatActivity {
 
     private ViewPager mViewPager;
     private TabLayout mTablayout;
@@ -77,6 +78,8 @@ public class PeopleDetailsActivity extends AppCompatActivity implements Navigati
         getSupportActionBar().setTitle(getIntent().getStringExtra("title"));
 
         mProfileImage = (ImageView) findViewById(R.id.people_profile_image);
+        mProfileImage.setAlpha((float)0.5);
+
         mProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,6 +96,9 @@ public class PeopleDetailsActivity extends AppCompatActivity implements Navigati
             }
         });
 
+        NavigationDrawerFragment drawerFragment=(NavigationDrawerFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_nav);
+
+        drawerFragment.setUp((DrawerLayout) findViewById(R.id.drawer_layout),toolbar);
 
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
         mTablayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -120,13 +126,7 @@ public class PeopleDetailsActivity extends AppCompatActivity implements Navigati
         });
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
 
-         navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
         fetchData();
     }
@@ -152,15 +152,7 @@ public class PeopleDetailsActivity extends AppCompatActivity implements Navigati
             }
         });
     }
-    @Override
-    protected void onResume() {
-        super.onResume();
-        navigationView.getMenu().findItem(R.id.nav_Home).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_movie).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_people).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_tv).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_wishlist).setChecked(false);
-    }
+
 
     @Override
     public void onBackPressed() {
@@ -173,28 +165,7 @@ public class PeopleDetailsActivity extends AppCompatActivity implements Navigati
         overridePendingTransition(R.anim.no_change,R.anim.slide_left);
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        if (item.getItemId() == R.id.nav_Home) {
-            startActivity(new Intent(PeopleDetailsActivity.this, MainActivity.class));
-        }
-        if (item.getItemId() == R.id.nav_movie) {
-            startActivity(new Intent(PeopleDetailsActivity.this, MoviesActivity.class));
-        }
-        if (item.getItemId() == R.id.nav_tv) {
-            startActivity(new Intent(PeopleDetailsActivity.this, TvActivity.class));
-        }
-        if(item.getItemId()==R.id.nav_people){
-            startActivity(new Intent(PeopleDetailsActivity.this, PopularPeopleActivity.class));
-        }
-        if(item.getItemId()==R.id.nav_wishlist){
-            startActivity(new Intent(PeopleDetailsActivity.this, WishlistAcitvity.class));
-        }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
 
     private class PageAdapter extends FragmentPagerAdapter {
 

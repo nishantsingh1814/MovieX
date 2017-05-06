@@ -57,6 +57,7 @@ public class SeasonActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mStillImage=(ImageView)findViewById(R.id.season_still_image);
+        mStillImage.setAlpha((float)0.5);
         mStillImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

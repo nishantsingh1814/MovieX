@@ -32,6 +32,7 @@ import android.widget.ImageView;
 import com.eventx.moviex.MainActivity;
 import com.eventx.moviex.MovieActivities.MoviesActivity;
 import com.eventx.moviex.MovieActivities.MoviesDetailsActivity;
+import com.eventx.moviex.MovieFragments.NavigationDrawerFragment;
 import com.eventx.moviex.MovieModels.ResultTrailer;
 import com.eventx.moviex.Network.ApiClient;
 import com.eventx.moviex.Network.ApiInterface;
@@ -49,9 +50,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.activeandroid.Cache.getContext;
 
-public class TvShowDetailsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class TvShowDetailsActivity extends AppCompatActivity {
 
 
     private NavigationView navigationView;
@@ -69,25 +69,13 @@ public class TvShowDetailsActivity extends AppCompatActivity implements Navigati
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
 
+        NavigationDrawerFragment drawerFragment=(NavigationDrawerFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_nav);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        drawerFragment.setUp((DrawerLayout) findViewById(R.id.drawer_layout),toolbar);
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        navigationView.getMenu().findItem(R.id.nav_Home).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_movie).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_people).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_tv).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_wishlist).setChecked(false);
-    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -120,28 +108,6 @@ public class TvShowDetailsActivity extends AppCompatActivity implements Navigati
         return true;
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-        if(item.getItemId()==R.id.nav_Home){
-            startActivity(new Intent(TvShowDetailsActivity.this, MainActivity.class));
-        }
-        if (item.getItemId() == R.id.nav_movie) {
-            startActivity(new Intent(TvShowDetailsActivity.this, MoviesActivity.class));
-        }
-        if (item.getItemId() == R.id.nav_tv) {
-            startActivity(new Intent(TvShowDetailsActivity.this, TvActivity.class));
-        }
-        if(item.getItemId()==R.id.nav_people){
-            startActivity(new Intent(TvShowDetailsActivity.this, PopularPeopleActivity.class));
-        }
-        if(item.getItemId()==R.id.nav_wishlist){
-            startActivity(new Intent(TvShowDetailsActivity.this, WishlistAcitvity.class));
-        }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
 
 
 

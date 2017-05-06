@@ -24,6 +24,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.eventx.moviex.MainActivity;
+import com.eventx.moviex.MovieFragments.NavigationDrawerFragment;
 import com.eventx.moviex.MovieModels.MovieDetails;
 import com.eventx.moviex.MovieModels.ResultTrailer;
 import com.eventx.moviex.Network.ApiClient;
@@ -35,6 +36,10 @@ import com.eventx.moviex.TvActivities.TvActivity;
 import com.eventx.moviex.TvActivities.TvImagesActivity;
 import com.eventx.moviex.TvActivities.TvShowDetailsActivity;
 import com.eventx.moviex.Wishlist.WishlistAcitvity;
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrConfig;
+import com.r0adkll.slidr.model.SlidrListener;
+import com.r0adkll.slidr.model.SlidrPosition;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -45,7 +50,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MoviesDetailsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MoviesDetailsActivity extends AppCompatActivity {
 
 
     private NavigationView navigationView;
@@ -54,6 +59,7 @@ public class MoviesDetailsActivity extends AppCompatActivity implements Navigati
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies_details);
+
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -61,14 +67,9 @@ public class MoviesDetailsActivity extends AppCompatActivity implements Navigati
         getSupportActionBar().setTitle("");
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        NavigationDrawerFragment drawerFragment=(NavigationDrawerFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_nav);
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
+        drawerFragment.setUp((DrawerLayout) findViewById(R.id.drawer_layout),toolbar);
     }
 
 
@@ -86,37 +87,7 @@ public class MoviesDetailsActivity extends AppCompatActivity implements Navigati
     }
 
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        if (item.getItemId() == R.id.nav_Home) {
-            startActivity(new Intent(MoviesDetailsActivity.this, MainActivity.class));
-        }
-        if (item.getItemId() == R.id.nav_movie) {
-            startActivity(new Intent(MoviesDetailsActivity.this, MoviesActivity.class));
-        }
-        if (item.getItemId() == R.id.nav_tv) {
-            startActivity(new Intent(MoviesDetailsActivity.this, TvActivity.class));
-        }
-        if(item.getItemId()==R.id.nav_people){
-            startActivity(new Intent(MoviesDetailsActivity.this, PopularPeopleActivity.class));
-        }
-        if(item.getItemId()==R.id.nav_wishlist){
-            startActivity(new Intent(MoviesDetailsActivity.this, WishlistAcitvity.class));
-        }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-    @Override
-    protected void onResume() {
-        super.onResume();
-        navigationView.getMenu().findItem(R.id.nav_Home).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_movie).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_people).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_tv).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_wishlist).setChecked(false);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

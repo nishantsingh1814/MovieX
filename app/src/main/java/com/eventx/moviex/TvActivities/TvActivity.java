@@ -17,11 +17,12 @@ import android.view.MenuItem;
 
 import com.eventx.moviex.MainActivity;
 import com.eventx.moviex.MovieActivities.MoviesActivity;
+import com.eventx.moviex.MovieFragments.NavigationDrawerFragment;
 import com.eventx.moviex.PeopleActivities.PopularPeopleActivity;
 import com.eventx.moviex.R;
 import com.eventx.moviex.Wishlist.WishlistAcitvity;
 
-public class TvActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class TvActivity extends AppCompatActivity {
 
     private NavigationView navigationView;
 
@@ -32,14 +33,10 @@ public class TvActivity extends AppCompatActivity implements NavigationView.OnNa
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Tv Shows");
+        NavigationDrawerFragment drawerFragment=(NavigationDrawerFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_nav);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        drawerFragment.setUp((DrawerLayout) findViewById(R.id.drawer_layout),toolbar);
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -52,37 +49,7 @@ public class TvActivity extends AppCompatActivity implements NavigationView.OnNa
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        navigationView.getMenu().findItem(R.id.nav_Home).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_movie).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_people).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_tv).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_wishlist).setChecked(false);
-    }
 
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        if (item.getItemId() == R.id.nav_Home) {
-            startActivity(new Intent(TvActivity.this, MainActivity.class));
-        }
-        if (item.getItemId() == R.id.nav_movie) {
-            startActivity(new Intent(TvActivity.this, MoviesActivity.class));
-        }
-        if (item.getItemId() == R.id.nav_tv) {
-            startActivity(new Intent(TvActivity.this, TvActivity.class));
-        }
-        if (item.getItemId() == R.id.nav_people) {
-            startActivity(new Intent(TvActivity.this, PopularPeopleActivity.class));
-        }
-        if (item.getItemId() == R.id.nav_wishlist) {
-            startActivity(new Intent(TvActivity.this, WishlistAcitvity.class));
-        }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
 }

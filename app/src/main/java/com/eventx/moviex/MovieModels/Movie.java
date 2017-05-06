@@ -12,6 +12,29 @@ public class Movie implements Serializable{
     private String title;
     private String poster_path;
     private double vote_average;
+    private String release_date;
+
+    public String getRelease_date() {
+        return release_date;
+    }
+
+    public void setRelease_date(String release_date) {
+        this.release_date = release_date;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    private float rating;
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
 
     public String getOverview() {
         return overview;

@@ -16,7 +16,7 @@
         android:layout_marginTop="10dp"
         android:src="@drawable/profile"
         app:border_color="@color/cardview_light_background"
-        app:border_width="3dp" />
+        app:border_width="2dp" />
 
     <TextView
         android:id="@+id/cast_title"

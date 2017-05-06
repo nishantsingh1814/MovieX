@@ -13,16 +13,13 @@
         android:layout_width="match_parent"/>
 
 
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        app:headerLayout="@layout/navigaion_header"
-        android:elevation="16dp"
-
+    <fragment
+        android:layout_width="280dp"
+        android:id="@+id/fragment_nav"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:menu="@menu/drawer_menu" />
+        app:layout="@layout/fragment_navigation_drawer"
+        android:name="com.eventx.moviex.MovieFragments.NavigationDrawerFragment"
+        tools:layout="@layout/fragment_navigation_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

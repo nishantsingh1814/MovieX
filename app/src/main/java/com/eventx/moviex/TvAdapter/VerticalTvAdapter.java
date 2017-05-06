@@ -1,6 +1,7 @@
 package com.eventx.moviex.TvAdapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -18,11 +19,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.eventx.moviex.Database.MovieDbHelper;
+import com.eventx.moviex.LoginAccount.WatchList;
+import com.eventx.moviex.MovieModels.MovieDetails;
+import com.eventx.moviex.Network.ApiClient;
+import com.eventx.moviex.Network.ApiInterface;
 import com.eventx.moviex.R;
 import com.eventx.moviex.TvModels.TvShow;
+import com.eventx.moviex.TvModels.TvShowD;
+import com.eventx.moviex.TvModels.TvShowDetails;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Nishant on 3/28/2017.
@@ -32,6 +43,10 @@ public class VerticalTvAdapter extends RecyclerView.Adapter<VerticalTvAdapter.Ve
     ArrayList<TvShow> mShow;
     LayoutInflater inflater;
     Context mContext;
+    private String sessionId;
+    private long accountId;
+    SharedPreferences sp;
+
 
     final private ListItemClickListener mOnClickListener;
 
@@ -43,6 +58,9 @@ public class VerticalTvAdapter extends RecyclerView.Adapter<VerticalTvAdapter.Ve
         mOnClickListener = listener;
         mShow = mTvShow;
         mContext = context;
+        sp = context.getSharedPreferences("MovieX", Context.MODE_PRIVATE);
+        sessionId = sp.getString("session", null);
+        accountId = sp.getLong("account", -1);
         inflater = LayoutInflater.from(context);
     }
 
@@ -60,53 +78,140 @@ public class VerticalTvAdapter extends RecyclerView.Adapter<VerticalTvAdapter.Ve
         holder.cardMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                PopupMenu popup = new PopupMenu(mContext, holder.cardMenu);
-                final MovieDbHelper helper;
-                SQLiteDatabase readDb;
+                final PopupMenu popup = new PopupMenu(mContext, holder.cardMenu);
 
-                helper = new MovieDbHelper(mContext);
-                readDb = helper.getReadableDatabase();
-                Cursor c = readDb.query(MovieDbHelper.TV_WISHLIST_TABLE, null, MovieDbHelper.COLUMN_TV_ID + " = " + mShow.get(position).getTvId(), null, null, null, null);
-                if (c.getCount() == 0) {
-                    popup.inflate(R.menu.card_popup);
-                    Menu menu=popup.getMenu();
-                    MenuItem settingsMenuItem =menu.findItem(R.id.menu_wishlist);
-                    SpannableString s = new SpannableString(settingsMenuItem.getTitle());
-                    s.setSpan(new ForegroundColorSpan(Color.BLACK), 0, s.length(), 0);
-                    settingsMenuItem.setTitle(s);
-                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                if (sessionId == null) {
+                    final MovieDbHelper helper;
+                    SQLiteDatabase readDb;
+
+                    helper = new MovieDbHelper(mContext);
+                    readDb = helper.getReadableDatabase();
+                    Cursor c = readDb.query(MovieDbHelper.TV_WISHLIST_TABLE, null, MovieDbHelper.COLUMN_TV_ID + " = " + mShow.get(position).getTvId(), null, null, null, null);
+                    if (c.getCount() == 0) {
+                        popup.inflate(R.menu.card_popup);
+                        Menu menu = popup.getMenu();
+                        MenuItem settingsMenuItem = menu.findItem(R.id.menu_wishlist);
+                        SpannableString s = new SpannableString(settingsMenuItem.getTitle());
+                        s.setSpan(new ForegroundColorSpan(Color.BLACK), 0, s.length(), 0);
+                        settingsMenuItem.setTitle(s);
+                        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                Snackbar.make(view, "Added to you wishlist", Snackbar.LENGTH_SHORT).show();
+                                SQLiteDatabase db = helper.getWritableDatabase();
+                                helper.addToSqlite(db, MovieDbHelper.TV_WISHLIST_TABLE, mShow.get(position).getTvId(), mShow.get(position).getName(), mShow.get(position).getPoster_path());
+                                notifyDataSetChanged();
+                                return true;
+                            }
+                        });
+                    } else {
+                        popup.inflate(R.menu.wishlist_card_popup);
+                        Menu menu = popup.getMenu();
+                        MenuItem settingsMenuItem = menu.findItem(R.id.remove);
+                        SpannableString s = new SpannableString(settingsMenuItem.getTitle());
+                        s.setSpan(new ForegroundColorSpan(Color.BLACK), 0, s.length(), 0);
+                        settingsMenuItem.setTitle(s);
+                        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                Snackbar.make(view, "Removed from your wishlist", Snackbar.LENGTH_SHORT).show();
+
+                                SQLiteDatabase db = helper.getWritableDatabase();
+                                db.delete(MovieDbHelper.TV_WISHLIST_TABLE, MovieDbHelper.COLUMN_TV_ID + " = " + mShow.get(position).getTvId(), null);
+
+                                notifyDataSetChanged();
+
+                                return true;
+                            }
+                        });
+                    }
+
+                    c.close();
+                    popup.show();
+                }else{
+                    final ApiInterface apiInterface = ApiClient.getApiInterface();
+                    Call<TvShowD> call = apiInterface.getSingleTvShowD(mShow.get(position).getTvId(), sessionId);
+                    call.enqueue(new Callback<TvShowD>() {
                         @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            Snackbar.make(view, "Added to you wishlist", Snackbar.LENGTH_SHORT).show();
-                            SQLiteDatabase db = helper.getWritableDatabase();
-                            helper.addToSqlite(db, MovieDbHelper.TV_WISHLIST_TABLE, mShow.get(position).getTvId(), mShow.get(position).getName(), mShow.get(position).getPoster_path());
-                            notifyDataSetChanged();
-                            return true;
+                        public void onResponse(Call<TvShowD> call, Response<TvShowD> response) {
+                            if (response.isSuccessful()) {
+
+                                if (response.body().getAccount_states().isWatchlist()) {
+                                    popup.inflate(R.menu.wishlist_card_popup);
+                                    Menu menu = popup.getMenu();
+                                    MenuItem settingsMenuItem = menu.findItem(R.id.remove);
+                                    SpannableString s = new SpannableString(settingsMenuItem.getTitle());
+                                    s.setSpan(new ForegroundColorSpan(Color.BLACK), 0, s.length(), 0);
+                                    settingsMenuItem.setTitle(s);
+                                    popup.show();
+                                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                        @Override
+                                        public boolean onMenuItemClick(MenuItem item) {
+
+                                            WatchList watchList = new WatchList("tv", mShow.get(position).getTvId(), false);
+
+                                            Call<WatchList> watchListCall = apiInterface.removeFromWatchList(watchList, accountId, sessionId);
+                                            watchListCall.enqueue(new Callback<WatchList>() {
+                                                @Override
+                                                public void onResponse(Call<WatchList> call, Response<WatchList> response) {
+                                                    if (response.isSuccessful()) {
+                                                        Snackbar.make(view, "Removed From watchlist", Snackbar.LENGTH_SHORT).show();
+
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<WatchList> call, Throwable t) {
+
+                                                }
+                                            });
+                                            return true;
+                                        }
+                                    });
+
+                                } else {
+                                    popup.inflate(R.menu.card_popup);
+
+
+                                    Menu menu = popup.getMenu();
+                                    MenuItem settingsMenuItem = menu.findItem(R.id.menu_wishlist);
+                                    SpannableString s = new SpannableString(settingsMenuItem.getTitle());
+                                    s.setSpan(new ForegroundColorSpan(Color.BLACK), 0, s.length(), 0);
+                                    settingsMenuItem.setTitle(s);
+                                    popup.show();
+
+                                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                        @Override
+                                        public boolean onMenuItemClick(MenuItem item) {
+                                            WatchList watchList = new WatchList("tv", mShow.get(position).getTvId(), true);
+                                            Call<WatchList> watchListCall = apiInterface.addToWatchList(watchList, accountId, sessionId);
+                                            watchListCall.enqueue(new Callback<WatchList>() {
+                                                @Override
+                                                public void onResponse(Call<WatchList> call, Response<WatchList> response) {
+                                                    if (response.isSuccessful()) {
+                                                        Snackbar.make(view, "Added to your Watchlist", Snackbar.LENGTH_SHORT).show();
+                                                    }
+
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<WatchList> call, Throwable t) {
+
+                                                }
+                                            });
+                                            return true;
+                                        }
+                                    });
+                                }
+                            }
                         }
-                    });
-                } else {
-                    popup.inflate(R.menu.wishlist_card_popup);
-                    Menu menu=popup.getMenu();
-                    MenuItem settingsMenuItem =menu.findItem(R.id.remove);
-                    SpannableString s = new SpannableString(settingsMenuItem.getTitle());
-                    s.setSpan(new ForegroundColorSpan(Color.BLACK), 0, s.length(), 0);
-                    settingsMenuItem.setTitle(s);
-                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
                         @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            Snackbar.make(view, "Removed from your wishlist", Snackbar.LENGTH_SHORT).show();
+                        public void onFailure(Call<TvShowD> call, Throwable t) {
 
-                            SQLiteDatabase db=helper.getWritableDatabase();
-                            db.delete(MovieDbHelper.TV_WISHLIST_TABLE,MovieDbHelper.COLUMN_TV_ID+" = "+mShow.get(position).getTvId(),null);
-
-                            notifyDataSetChanged();
-
-                            return true;
                         }
                     });
                 }
-                c.close();
-                popup.show();
             }
         });
         String overview = show.getOverview();

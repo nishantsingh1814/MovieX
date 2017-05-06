@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import static android.R.attr.format;
-import static com.activeandroid.Cache.getContext;
 
 /**
  * Created by Nishant on 3/29/2017.
@@ -85,10 +84,10 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.EpisodeH
         final Cursor c = readDb.query(MovieDbHelper.EPISODE_WATCHED_TABLE, null, MovieDbHelper.COLUMN_EPISODE_ID + " = " + episode.getId(), null, null, null, null);
 
         if (c.getCount() != 0) {
-            holder.watchImage.setImageResource(R.drawable.ic_correct_signal);
+            holder.watchImage.setImageResource(R.drawable.correct_white);
             holder.watchImage.setBackgroundColor(Color.parseColor("#607D8B"));
         } else {
-            holder.watchImage.setImageResource(R.drawable.ic_correct_signal_red);
+            holder.watchImage.setImageResource(R.drawable.ic_noun_15005);
             holder.watchImage.setBackgroundColor(Color.parseColor("#ffffff"));
         }
         holder.watchImage.setOnClickListener(new View.OnClickListener() {
@@ -98,12 +97,12 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.EpisodeH
                 if (c.getCount() != 0) {
                     SQLiteDatabase db = helper.getWritableDatabase();
                     db.delete(MovieDbHelper.EPISODE_WATCHED_TABLE, MovieDbHelper.COLUMN_EPISODE_ID + " = " + episode.getId(), null);
-                    holder.watchImage.setImageResource(R.drawable.ic_correct_signal_red);
+                    holder.watchImage.setImageResource(R.drawable.ic_noun_15005);
                     holder.watchImage.setBackgroundColor(Color.parseColor("#ffffff"));
                 } else {
                     SQLiteDatabase db = helper.getWritableDatabase();
                     helper.addToEpisode(db, MovieDbHelper.EPISODE_WATCHED_TABLE, episode.getId());
-                    holder.watchImage.setImageResource(R.drawable.ic_correct_signal);
+                    holder.watchImage.setImageResource(R.drawable.correct_white);
                     holder.watchImage.setBackgroundColor(Color.parseColor("#607D8B"));
                 }
                 c.close();

@@ -1,5 +1,6 @@
 package com.eventx.moviex.Wishlist;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
@@ -25,19 +26,24 @@ public class WishlistAcitvity extends AppCompatActivity {
 
     private ViewPager mViewPager;
     private TabLayout mTablayout;
+    String sessionId;
+    SharedPreferences sp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_wishlist_acitvity);
+        sp=getSharedPreferences("MovieX",MODE_PRIVATE);
+        sessionId=sp.getString("session",null);
         CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(
                 R.id.collapse);
         collapsingToolbar.setTitleEnabled(false);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Your Wishlist");
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Your Movies Watchlist");
 
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
         mTablayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -57,7 +63,13 @@ public class WishlistAcitvity extends AppCompatActivity {
         mTablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                if(tab.getPosition()==0){
+                    getSupportActionBar().setTitle("Your Movies Watchlist");
+                }else{
+                    getSupportActionBar().setTitle("Your Tv Show Watchlist");
+                }
                 mViewPager.setCurrentItem(tab.getPosition());
+
                 tab.getIcon().setColorFilter(Color.parseColor("#ffffff"), PorterDuff.Mode.SRC_IN);
 
             }
@@ -94,13 +106,24 @@ public class WishlistAcitvity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return new WishlistMovieFrag();
-                case 1:
-                    return new WishlistTvFragment();
+
+            if(sessionId!=null) {
+                switch (position) {
+                    case 0:
+                        return new WatchlistFragment();
+                    case 1:
+                        return new WatchlistTvFragment();
+                }
+                return new TvImagesFragment();
+            }else{
+                switch (position) {
+                    case 0:
+                        return new WishlistMovieFrag();
+                    case 1:
+                        return new WishlistTvFragment();
+                }
+                return new TvImagesFragment();
             }
-            return new TvImagesFragment();
         }
 
         @Override

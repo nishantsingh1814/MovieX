@@ -29,6 +29,7 @@ import android.view.MenuItem;
 import com.eventx.moviex.MovieActivities.MoviesActivity;
 import com.eventx.moviex.MovieActivities.MoviesDetailsActivity;
 import com.eventx.moviex.MovieFragments.MoviesFrament;
+import com.eventx.moviex.MovieFragments.NavigationDrawerFragment;
 import com.eventx.moviex.PeopleActivities.PopularPeopleActivity;
 import com.eventx.moviex.PeopleFragments.PeopleFragment;
 import com.eventx.moviex.TvActivities.TvActivity;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         collapsingToolbar.setTitleEnabled(false);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("MovieX");
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
         mTablayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -93,12 +95,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        NavigationDrawerFragment drawerFragment=(NavigationDrawerFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_nav);
+
+        drawerFragment.setUp((DrawerLayout) findViewById(R.id.drawer_layout),toolbar);
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.addDrawerListener(toggle);
+//        toggle.syncState();
+//        navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        navigationView.setNavigationItemSelectedListener(this);
 
     }
 
@@ -130,6 +135,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         if (item.getItemId() == R.id.nav_wishlist) {
             startActivity(new Intent(MainActivity.this, WishlistAcitvity.class));
+        }
+        if(item.getItemId()==R.id.nav_login){
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -169,13 +177,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        navigationView.getMenu().findItem(R.id.nav_Home).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_movie).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_people).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_tv).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_wishlist).setChecked(false);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        navigationView.getMenu().findItem(R.id.nav_Home).setChecked(false);
+//        navigationView.getMenu().findItem(R.id.nav_movie).setChecked(false);
+//        navigationView.getMenu().findItem(R.id.nav_people).setChecked(false);
+//        navigationView.getMenu().findItem(R.id.nav_tv).setChecked(false);
+//        navigationView.getMenu().findItem(R.id.nav_wishlist).setChecked(false);
+//    }
 }

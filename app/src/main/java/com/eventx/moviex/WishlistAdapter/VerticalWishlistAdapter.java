@@ -34,7 +34,6 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 import static android.support.v4.content.ContextCompat.startActivity;
-import static com.activeandroid.Cache.getContext;
 
 /**
  * Created by Nishant on 4/7/2017.

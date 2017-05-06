@@ -10,20 +10,28 @@
 
     <include layout="@layout/app_bar_main"
         android:layout_height="match_parent"
-        android:layout_width="match_parent"/>
+        android:layout_width="wrap_content"/>
 
 
 
 
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:background="@android:color/white"
-        android:layout_width="wrap_content"
-        android:elevation="16dp"
+    <!--<android.support.design.widget.NavigationView-->
+        <!--android:id="@+id/nav_view"-->
+        <!--android:background="@android:color/white"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:elevation="16dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--app:headerLayout="@layout/navigaion_header"-->
+        <!--android:layout_gravity="start"-->
+        <!--android:fitsSystemWindows="true"-->
+        <!--app:menu="@menu/drawer_menu" />-->
+
+    <fragment
+        android:layout_width="280dp"
+        android:id="@+id/fragment_nav"
         android:layout_height="match_parent"
-        app:headerLayout="@layout/navigaion_header"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:menu="@menu/drawer_menu" />
-
+        app:layout="@layout/fragment_navigation_drawer"
+        android:name="com.eventx.moviex.MovieFragments.NavigationDrawerFragment"
+        tools:layout="@layout/fragment_navigation_drawer" />
 </android.support.v4.widget.DrawerLayout>

@@ -5,30 +5,46 @@
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
     android:background="?android:attr/selectableItemBackground"
+    android:elevation="10dp"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/movie_image"
-            android:layout_width="100dp"
-            android:layout_height="160dp"
-            android:scaleType="fitXY"/>
-
-        <TextView
-            android:id="@+id/movie_title"
-            android:layout_width="100dp"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#A6000000"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif-condensed"
-            android:layout_alignBottom="@id/movie_image"
-            android:scrollHorizontally="false"
-            android:textSize="13sp" />
+            android:orientation="vertical">
 
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/movie_image"
+                android:layout_width="100dp"
+                android:layout_height="160dp"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:id="@+id/movie_title"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/movie_image"
+                android:background="#A6000000"
+                android:fontFamily="sans-serif-condensed"
+                android:scrollHorizontally="false"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableTint="#ff80ff"
+            android:drawableLeft="@drawable/ic_star_black_24dp"
+            android:textStyle="bold"
+            android:gravity="center_vertical"
+            android:background="@color/colorPrimaryDarkT"
+            android:id="@+id/rating"/>
+    </LinearLayout>
 
 </android.support.v7.widget.CardView>

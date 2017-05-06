@@ -78,8 +78,6 @@ public class TvEpisodeFragment extends Fragment implements EpisodeAdapter.ListIt
                     }else{
                         fetchData();
                     }
-
-
                 }
 
                 @Override

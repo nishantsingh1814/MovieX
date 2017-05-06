@@ -21,6 +21,7 @@ import android.widget.Button;
 
 import com.eventx.moviex.MainActivity;
 import com.eventx.moviex.MovieActivities.MoviesActivity;
+import com.eventx.moviex.MovieFragments.NavigationDrawerFragment;
 import com.eventx.moviex.Network.ApiClient;
 import com.eventx.moviex.Network.ApiInterface;
 import com.eventx.moviex.PeopleAdapter.PopularPeopleAdapter;
@@ -38,7 +39,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PopularPeopleActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, PopularPeopleAdapter.ListItemClickListener {
+public class PopularPeopleActivity extends AppCompatActivity implements  PopularPeopleAdapter.ListItemClickListener {
 
     PopularPeopleAdapter adapter;
     RecyclerView popularPeopleList;
@@ -72,21 +73,16 @@ public class PopularPeopleActivity extends AppCompatActivity implements Navigati
                 fetchData(page++);
             }
         });
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        NavigationDrawerFragment drawerFragment=(NavigationDrawerFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_nav);
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
+        drawerFragment.setUp((DrawerLayout) findViewById(R.id.drawer_layout),toolbar);
         fetchData(page++);
 
 
     }
 
     private void fetchData(final int i) {
-
+        Log.i("lojkl", "fetchData: l");
         ApiInterface apiInterface = ApiClient.getApiInterface();
         Call<PopularResults> popularPeop = apiInterface.getPopularPeople(i);
         popularPeop.enqueue(new Callback<PopularResults>() {
@@ -101,7 +97,7 @@ public class PopularPeopleActivity extends AppCompatActivity implements Navigati
 
                 } else {
                     viewMore.setVisibility(View.INVISIBLE);
-                    return;
+
                 }
 
             }
@@ -139,50 +135,7 @@ public class PopularPeopleActivity extends AppCompatActivity implements Navigati
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
 
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-        if (item.getItemId() == R.id.nav_Home) {
-            startActivity(new Intent(PopularPeopleActivity.this, MainActivity.class));
-        }
-        if (item.getItemId() == R.id.nav_movie) {
-            startActivity(new Intent(PopularPeopleActivity.this, MoviesActivity.class));
-        }
-        if (item.getItemId() == R.id.nav_tv) {
-            startActivity(new Intent(PopularPeopleActivity.this, TvActivity.class));
-
-        }
-        if (item.getItemId() == R.id.nav_people) {
-            startActivity(new Intent(PopularPeopleActivity.this, PopularPeopleActivity.class));
-        }
-        if(item.getItemId()==R.id.nav_wishlist){
-            startActivity(new Intent(PopularPeopleActivity.this, WishlistAcitvity.class));
-
-        }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-    @Override
-    protected void onResume() {
-        super.onResume();
-        navigationView.getMenu().findItem(R.id.nav_Home).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_movie).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_people).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_tv).setChecked(false);
-        navigationView.getMenu().findItem(R.id.nav_wishlist).setChecked(false);
-    }
 
 
     @Override

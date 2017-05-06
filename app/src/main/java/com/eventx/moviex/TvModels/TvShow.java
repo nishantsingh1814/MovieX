@@ -2,6 +2,8 @@ package com.eventx.moviex.TvModels;
 
 import com.google.gson.annotations.SerializedName;
 
+import static android.R.attr.rating;
+
 /**
  * Created by Nishant on 3/27/2017.
  */
@@ -11,9 +13,15 @@ public class TvShow {
     private double vote_average;
     private String overview;
     private String poster_path;
+    private float rating;
 
+    public float getRating() {
+        return rating;
+    }
 
-
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
 
     public String getPoster_path() {
         return poster_path;

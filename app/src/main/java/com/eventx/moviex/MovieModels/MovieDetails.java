@@ -1,5 +1,7 @@
 package com.eventx.moviex.MovieModels;
 
+import com.eventx.moviex.LoginAccount.AccountState;
+
 import java.util.ArrayList;
 
 /**
@@ -16,6 +18,15 @@ public class MovieDetails {
     private String tagline;
     private float vote_average;
     private String backdrop_path;
+    private AccountState account_states;
+
+    public AccountState getAccount_states() {
+        return account_states;
+    }
+
+    public void setAccount_states(AccountState account_states) {
+        this.account_states = account_states;
+    }
 
     public String getBackdrop_path() {
         return backdrop_path;

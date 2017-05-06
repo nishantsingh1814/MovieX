@@ -11,7 +11,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         app:border_color="@color/cardview_light_background"
-        app:border_width="3dp" />
+        app:border_width="2dp" />
 
     <LinearLayout
         android:layout_width="match_parent"

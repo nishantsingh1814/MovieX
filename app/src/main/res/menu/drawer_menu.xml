@@ -3,6 +3,10 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_login"
+            android:icon="@drawable/ic_login"
+            android:title="Login" />
+        <item
             android:id="@+id/nav_Home"
             android:icon="@drawable/ic_home_black_24dp"
             android:title="Home" />
@@ -18,8 +22,9 @@
             android:id="@+id/nav_people"
             android:icon="@drawable/ic_perm_identity_nav"
             android:title="Celebrities" />
-        <item android:id="@+id/nav_wishlist"
+        <item
+            android:id="@+id/nav_wishlist"
             android:icon="@drawable/ic_bookmark_black_24dp"
-            android:title="Wishlist"/>
+            android:title="Wishlist" />
     </group>
 </menu>

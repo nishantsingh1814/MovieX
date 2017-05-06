@@ -1,6 +1,7 @@
 package com.eventx.moviex.MovieAdapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,24 +20,35 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.eventx.moviex.Database.MovieDbHelper;
+import com.eventx.moviex.LoginAccount.WatchList;
 import com.eventx.moviex.MovieModels.Movie;
 import com.eventx.moviex.MovieFragments.MoviesButtonHandleFragment;
+import com.eventx.moviex.MovieModels.MovieD;
+import com.eventx.moviex.MovieModels.MovieDetails;
+import com.eventx.moviex.Network.ApiClient;
+import com.eventx.moviex.Network.ApiInterface;
 import com.eventx.moviex.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import static com.activeandroid.Cache.getContext;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.google.android.gms.internal.zzs.TAG;
 
 /**
  * Created by Nishant on 3/27/2017.
  */
 
 public class VerticalMoviesAdapter extends RecyclerView.Adapter<VerticalMoviesAdapter.VerticalMoviesHolder> {
+    private String sessionId;
+    private long accountId;
     ArrayList<Movie> mMovie;
     LayoutInflater inflater;
     Context mContext;
-
+    SharedPreferences sp;
     MoviesButtonHandleFragment.MovieClickListener movieClickListener;
 
     ListItemClickListener listItemClickListener;
@@ -49,7 +62,11 @@ public class VerticalMoviesAdapter extends RecyclerView.Adapter<VerticalMoviesAd
         mMovie = movie;
         inflater = LayoutInflater.from(context);
         mContext = context;
+        sp = context.getSharedPreferences("MovieX", Context.MODE_PRIVATE);
         listItemClickListener = listener;
+        sessionId = sp.getString("session", null);
+        accountId = sp.getLong("account", -1);
+
     }
 
     class VerticalMoviesHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -92,57 +109,146 @@ public class VerticalMoviesAdapter extends RecyclerView.Adapter<VerticalMoviesAd
         holder.cardMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                PopupMenu popup = new PopupMenu(mContext, holder.cardMenu);
-
-                final MovieDbHelper helper;
-                SQLiteDatabase readDb;
-
-                helper = new MovieDbHelper(mContext);
-                readDb = helper.getReadableDatabase();
-                Cursor c = readDb.query(MovieDbHelper.MOVIE_WISHLIST_TABLE, null, MovieDbHelper.COLUMN_MOVIE_ID + " = " + mMovie.get(position).getMovieId(), null, null, null, null);
-                if (c.getCount() == 0) {
-                    popup.inflate(R.menu.card_popup);
 
 
-                    Menu menu=popup.getMenu();
-                    MenuItem settingsMenuItem =menu.findItem(R.id.menu_wishlist);
-                    SpannableString s = new SpannableString(settingsMenuItem.getTitle());
-                    s.setSpan(new ForegroundColorSpan(Color.BLACK), 0, s.length(), 0);
-                    settingsMenuItem.setTitle(s);
+                final PopupMenu popup = new PopupMenu(mContext, holder.cardMenu);
 
-                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            Snackbar.make(view, "Added to you wishlist", Snackbar.LENGTH_SHORT).show();
-                            SQLiteDatabase db = helper.getWritableDatabase();
-                            helper.addToSqlite(db, MovieDbHelper.MOVIE_WISHLIST_TABLE, mMovie.get(position).getMovieId(), mMovie.get(position).getTitle(), mMovie.get(position).getPoster_path());
-                            notifyDataSetChanged();
-                            return true;
-                        }
-                    });
+                if (sessionId == null) {
+                    final MovieDbHelper helper;
+                    SQLiteDatabase readDb;
+
+                    helper = new MovieDbHelper(mContext);
+                    readDb = helper.getReadableDatabase();
+                    Cursor c = readDb.query(MovieDbHelper.MOVIE_WISHLIST_TABLE, null, MovieDbHelper.COLUMN_MOVIE_ID + " = " + mMovie.get(position).getMovieId(), null, null, null, null);
+                    if (c.getCount() == 0) {
+                        popup.inflate(R.menu.card_popup);
+
+
+                        Menu menu = popup.getMenu();
+                        MenuItem settingsMenuItem = menu.findItem(R.id.menu_wishlist);
+                        SpannableString s = new SpannableString(settingsMenuItem.getTitle());
+                        s.setSpan(new ForegroundColorSpan(Color.BLACK), 0, s.length(), 0);
+                        settingsMenuItem.setTitle(s);
+
+                        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                Snackbar.make(view, "Added to your wishlist", Snackbar.LENGTH_SHORT).show();
+                                SQLiteDatabase db = helper.getWritableDatabase();
+                                helper.addToSqlite(db, MovieDbHelper.MOVIE_WISHLIST_TABLE, mMovie.get(position).getMovieId(), mMovie.get(position).getTitle(), mMovie.get(position).getPoster_path());
+                                notifyDataSetChanged();
+                                return true;
+                            }
+                        });
+                    } else {
+                        popup.inflate(R.menu.wishlist_card_popup);
+                        Menu menu = popup.getMenu();
+                        MenuItem settingsMenuItem = menu.findItem(R.id.remove);
+                        SpannableString s = new SpannableString(settingsMenuItem.getTitle());
+                        s.setSpan(new ForegroundColorSpan(Color.BLACK), 0, s.length(), 0);
+                        settingsMenuItem.setTitle(s);
+                        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                Snackbar.make(view, "Removed from your wishlist", Snackbar.LENGTH_SHORT).show();
+
+                                SQLiteDatabase db = helper.getWritableDatabase();
+                                db.delete(MovieDbHelper.MOVIE_WISHLIST_TABLE, MovieDbHelper.COLUMN_MOVIE_ID + " = " + mMovie.get(position).getMovieId(), null);
+                                notifyDataSetChanged();
+
+                                return true;
+                            }
+                        });
+                    }
+                    c.close();
+
+                    popup.show();
                 } else {
-                    popup.inflate(R.menu.wishlist_card_popup);
-                    Menu menu=popup.getMenu();
-                    MenuItem settingsMenuItem =menu.findItem(R.id.remove);
-                    SpannableString s = new SpannableString(settingsMenuItem.getTitle());
-                    s.setSpan(new ForegroundColorSpan(Color.BLACK), 0, s.length(), 0);
-                    settingsMenuItem.setTitle(s);
-                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    final ApiInterface apiInterface = ApiClient.getApiInterface();
+                    Call<MovieD> call = apiInterface.getMovieD(mMovie.get(position).getMovieId(), sessionId);
+                    call.enqueue(new Callback<MovieD>() {
                         @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            Snackbar.make(view, "Removed from your wishlist", Snackbar.LENGTH_SHORT).show();
+                        public void onResponse(Call<MovieD> call, Response<MovieD> response) {
+                            if (response.isSuccessful()) {
 
-                            SQLiteDatabase db = helper.getWritableDatabase();
-                            db.delete(MovieDbHelper.MOVIE_WISHLIST_TABLE, MovieDbHelper.COLUMN_MOVIE_ID + " = " + mMovie.get(position).getMovieId(), null);
-                            notifyDataSetChanged();
+                                if (response.body().getAccount_states().isWatchlist()) {
+                                    popup.inflate(R.menu.wishlist_card_popup);
+                                    Menu menu = popup.getMenu();
+                                    MenuItem settingsMenuItem = menu.findItem(R.id.remove);
+                                    SpannableString s = new SpannableString(settingsMenuItem.getTitle());
+                                    s.setSpan(new ForegroundColorSpan(Color.BLACK), 0, s.length(), 0);
+                                    settingsMenuItem.setTitle(s);
+                                    popup.show();
+                                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                        @Override
+                                        public boolean onMenuItemClick(MenuItem item) {
 
-                            return true;
+                                            WatchList watchList = new WatchList("movie", mMovie.get(position).getMovieId(), false);
+
+                                            Call<WatchList> watchListCall = apiInterface.removeFromWatchList(watchList, accountId, sessionId);
+                                            watchListCall.enqueue(new Callback<WatchList>() {
+                                                @Override
+                                                public void onResponse(Call<WatchList> call, Response<WatchList> response) {
+                                                    if (response.isSuccessful()) {
+                                                        Snackbar.make(view, "Removed From watchlist", Snackbar.LENGTH_SHORT).show();
+
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<WatchList> call, Throwable t) {
+
+                                                }
+                                            });
+                                            return true;
+                                        }
+                                    });
+
+                                } else {
+                                    popup.inflate(R.menu.card_popup);
+
+
+                                    Menu menu = popup.getMenu();
+                                    MenuItem settingsMenuItem = menu.findItem(R.id.menu_wishlist);
+                                    SpannableString s = new SpannableString(settingsMenuItem.getTitle());
+                                    s.setSpan(new ForegroundColorSpan(Color.BLACK), 0, s.length(), 0);
+                                    settingsMenuItem.setTitle(s);
+                                    popup.show();
+
+                                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                        @Override
+                                        public boolean onMenuItemClick(MenuItem item) {
+                                            WatchList watchList = new WatchList("movie", mMovie.get(position).getMovieId(), true);
+                                            Call<WatchList> watchListCall = apiInterface.addToWatchList(watchList, accountId, sessionId);
+                                            watchListCall.enqueue(new Callback<WatchList>() {
+                                                @Override
+                                                public void onResponse(Call<WatchList> call, Response<WatchList> response) {
+                                                    if (response.isSuccessful()) {
+                                                        Snackbar.make(view, "Added to your Watchlist", Snackbar.LENGTH_SHORT).show();
+                                                    }
+
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<WatchList> call, Throwable t) {
+
+                                                }
+                                            });
+                                            return true;
+                                        }
+                                    });
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<MovieD> call, Throwable t) {
+
                         }
                     });
-                }
-                c.close();
 
-                popup.show();
+                }
+
             }
         });
         String overview = movie.getOverview();

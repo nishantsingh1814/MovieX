@@ -12,6 +12,7 @@ import com.eventx.moviex.MovieAdapter.CastVerticalAdapter;
 import com.eventx.moviex.Network.ApiClient;
 import com.eventx.moviex.Network.ApiInterface;
 import com.eventx.moviex.R;
+import com.r0adkll.slidr.Slidr;
 
 import java.util.ArrayList;
 

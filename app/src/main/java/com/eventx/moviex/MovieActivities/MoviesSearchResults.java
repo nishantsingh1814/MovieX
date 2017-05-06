@@ -16,6 +16,7 @@ import com.eventx.moviex.MovieModels.MovieResults;
 import com.eventx.moviex.Network.ApiClient;
 import com.eventx.moviex.Network.ApiInterface;
 import com.eventx.moviex.R;
+import com.r0adkll.slidr.Slidr;
 
 import java.util.ArrayList;
 
@@ -32,6 +33,7 @@ public class MoviesSearchResults extends AppCompatActivity implements VerticalMo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_movies_search_results);
 

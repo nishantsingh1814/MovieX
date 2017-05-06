@@ -1,5 +1,7 @@
 package com.eventx.moviex.TvModels;
 
+import com.eventx.moviex.LoginAccount.AccountState;
+
 import java.util.ArrayList;
 
 /**
@@ -15,6 +17,15 @@ public class TvShowDetails {
     private float vote_average;
     private long vote_count;
     private int number_of_seasons;
+    private AccountState account_states;
+
+    public AccountState getAccount_states() {
+        return account_states;
+    }
+
+    public void setAccount_states(AccountState account_states) {
+        this.account_states = account_states;
+    }
 
     public String getBackdrop_path() {
         return backdrop_path;

@@ -1,6 +1,9 @@
 package com.eventx.moviex.TvFragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -37,30 +40,54 @@ import retrofit2.Response;
  * Created by Nishant on 3/27/2017.
  */
 
-public class TvFragment extends Fragment implements HorizontalTvAdapter.ListItemClickListener {
+public class TvFragment extends Fragment {
 
     private Toolbar toolbar;
     private RecyclerView tvRecycleList;
     private HorizontalTvAdapter adapter;
+    private HorizontalTvAdapter tvTonightadapter;
+    private HorizontalTvAdapter topratedAdapter;
+
+    private ArrayList<TvShow> mTopRated;
+    private ArrayList<TvShow> mTvTonight;
     private ArrayList<TvShow> mTvShow;
     private Button mostPopularBtn;
     private Button topRatedButton;
     private Button tvTonightBtn;
+
+    private RecyclerView topRatedRecyclerList;
+    private RecyclerView tvTonightRecyclerList;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tv_fragment, container, false);
         mTvShow = new ArrayList<>();
-        Log.i("poiuy", "onCreaate Tv: ");
+        mTopRated=new ArrayList<>();
+        mTvTonight=new ArrayList<>();
 
-        adapter = new HorizontalTvAdapter(mTvShow, getActivity(), this);
+        tvTonightadapter=new HorizontalTvAdapter(mTvTonight,getActivity());
+        topratedAdapter=new HorizontalTvAdapter(mTopRated,getActivity());
+
+
+        adapter = new HorizontalTvAdapter(mTvShow, getActivity());
         tvRecycleList = (RecyclerView) v.findViewById(R.id.tv_show_recycle_list);
+        tvRecycleList.setNestedScrollingEnabled(false);
         tvRecycleList.setAdapter(adapter);
 
+        topRatedRecyclerList=(RecyclerView)v.findViewById(R.id.top_rated_recycle_list);
+        topRatedRecyclerList.setNestedScrollingEnabled(false);
+        topRatedRecyclerList.setAdapter(topratedAdapter);
+        tvTonightRecyclerList=(RecyclerView)v.findViewById(R.id.air_today_recycle_list);
+        tvTonightRecyclerList.setAdapter(tvTonightadapter);
+        tvTonightRecyclerList.setNestedScrollingEnabled(false);
+
         mostPopularBtn = (Button) v.findViewById(R.id.tv_most_popular);
+        mostPopularBtn.setPaintFlags(mostPopularBtn.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
         topRatedButton = (Button) v.findViewById(R.id.tv_top_rated);
+        topRatedButton.setPaintFlags(mostPopularBtn.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
         tvTonightBtn = (Button) v.findViewById(R.id.tv_air_today);
+        tvTonightBtn.setPaintFlags(mostPopularBtn.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
 
         mostPopularBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,20 +144,63 @@ public class TvFragment extends Fragment implements HorizontalTvAdapter.ListItem
 
             @Override
             public void onFailure(Call<TvResults> call, Throwable t) {
+                if(t.getMessage().contains("Unable to resolve host")){
+                    AlertDialog.Builder dialog=new AlertDialog.Builder(getContext());
+                    dialog.setMessage("Turn On mobile data/ wifi ");
+                    dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            fetchData();
+                        }
+                    });
+
+                    dialog.create().show();
+                }            }
+        });
+        Call<TvResults> tvTonightResults = apiInterface.getTonightAir();
+        tvTonightResults.enqueue(new Callback<TvResults>() {
+            @Override
+            public void onResponse(Call<TvResults> call, Response<TvResults> response) {
+                if (response.isSuccessful()) {
+                    ArrayList<TvShow> popularJson = response.body().getResults();
+                    mTvTonight.clear();
+                    mTvTonight.addAll(popularJson);
+                    tvTonightadapter.notifyDataSetChanged();
+                }
+                else{
+                    fetchData();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TvResults> call, Throwable t) {
 
             }
         });
+        Call<TvResults> topRatedResults = apiInterface.getTopRatedTv();
+        topRatedResults.enqueue(new Callback<TvResults>() {
+            @Override
+            public void onResponse(Call<TvResults> call, Response<TvResults> response) {
+                if (response.isSuccessful()) {
+                    ArrayList<TvShow> popularJson = response.body().getResults();
+                    mTopRated.clear();
+                    mTopRated.addAll(popularJson);
+                    topratedAdapter.notifyDataSetChanged();
+                }
+                else{
+                    fetchData();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TvResults> call, Throwable t) {
+
+            }
+        });
+
     }
 
-    @Override
-    public void onListItemClick(int clickedPosition) {
-        Intent tvShowDetailsIntent = new Intent(getActivity(), TvShowDetailsActivity.class);
-        tvShowDetailsIntent.putExtra("id", mTvShow.get(clickedPosition).getTvId());
-        tvShowDetailsIntent.putExtra("title", mTvShow.get(clickedPosition).getName());
-        tvShowDetailsIntent.putExtra("poster",mTvShow.get(clickedPosition).getPoster_path());
-        startActivity(tvShowDetailsIntent);
-        getActivity().overridePendingTransition(R.anim.slide_in,R.anim.no_change);
-    }
+
 
     @Override
     public void onDestroy() {

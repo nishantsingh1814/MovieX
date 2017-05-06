@@ -2,6 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 <item
     android:id="@+id/menu_wishlist"
-    android:title="Add to Wishlist"
+    android:title="Add to Watchlist"
     />
 </menu>

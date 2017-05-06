@@ -1,6 +1,8 @@
 package com.eventx.moviex.TvAdapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.eventx.moviex.MovieActivities.MoviesDetailsActivity;
 import com.eventx.moviex.R;
+import com.eventx.moviex.TvActivities.TvShowDetailsActivity;
 import com.eventx.moviex.TvModels.TvShow;
 import com.squareup.picasso.Picasso;
 
@@ -23,13 +27,11 @@ public class HorizontalTvAdapter extends RecyclerView.Adapter<HorizontalTvAdapte
     LayoutInflater inflater;
     Context mContext;
 
-    final private ListItemClickListener mOnClickListener;
 
     public interface ListItemClickListener {
         void onListItemClick(int clickedPosition);
     }
-    public HorizontalTvAdapter(ArrayList<TvShow> mTvShow, Context context, ListItemClickListener listener) {
-        mOnClickListener = listener;
+    public HorizontalTvAdapter(ArrayList<TvShow> mTvShow, Context context) {
         mShow=mTvShow;
         mContext=context;
         inflater= LayoutInflater.from(context);
@@ -37,8 +39,7 @@ public class HorizontalTvAdapter extends RecyclerView.Adapter<HorizontalTvAdapte
 
     @Override
     public HorizontalTvHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view=inflater.inflate(R.layout.horizontal_list_item,parent,false);
-
+        View view=inflater.inflate(R.layout.tv_horizontal_item,parent,false);
         return new HorizontalTvHolder(view);
     }
 
@@ -68,10 +69,19 @@ public class HorizontalTvAdapter extends RecyclerView.Adapter<HorizontalTvAdapte
             itemView.setOnClickListener(this);
         }
 
+
         @Override
         public void onClick(View v) {
-            int clickedPosition=getAdapterPosition();
-            mOnClickListener.onListItemClick(clickedPosition);
+
+            Intent movieDetailsIntent = new Intent(mContext, TvShowDetailsActivity.class);
+            movieDetailsIntent.putExtra("id", mShow.get(getAdapterPosition()).getTvId());
+            movieDetailsIntent.putExtra("title", mShow.get(getAdapterPosition()).getName());
+            movieDetailsIntent.putExtra("poster",mShow.get(getAdapterPosition()).getPoster_path());
+            Activity act=(Activity)mContext;
+            mContext.startActivity(movieDetailsIntent);
+            act.overridePendingTransition(R.anim.slide_in,R.anim.no_change);
+
+
         }
     }
 }

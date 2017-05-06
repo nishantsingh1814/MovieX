@@ -41,11 +41,13 @@ public class HorizontalMoviesAdapter  extends RecyclerView.Adapter<HorizontalMov
     class MoviesHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
         private TextView movieTitle;
         private ImageView movieImage;
+        private TextView movieRating;
 
 
         public MoviesHolder(View itemView) {
             super(itemView);
 
+            movieRating=(TextView)itemView.findViewById(R.id.rating);
             movieTitle=(TextView)itemView.findViewById(R.id.movie_title);
             movieImage=(ImageView) itemView.findViewById(R.id.movie_image);
             itemView.setOnClickListener(this);
@@ -78,6 +80,7 @@ public class HorizontalMoviesAdapter  extends RecyclerView.Adapter<HorizontalMov
     public void onBindViewHolder(MoviesHolder holder, int position) {
         Movie movie=mMovie.get(position);
 
+        holder.movieRating.setText(movie.getVote_average()+"");
         Picasso.with(mContext).load("https://image.tmdb.org/t/p/w500"+movie.getPoster_path()).into(holder.movieImage);
         holder.movieTitle.setText(movie.getTitle());
 
