@@ -36,7 +36,7 @@ MovieX is a Movies and Tv Explorer developed using <h4>The Movie Db api</h4>
 <img src="https://github.com/nishantsingh1814/MovieX/blob/master/Screenshot_20170511-185116.png" height="450" width="240">     <img src="https://github.com/nishantsingh1814/MovieX/blob/master/WhatsApp%20Image%202017-05-11%20at%2019.33.43.jpeg" height="450" width="240">     <img src="https://github.com/nishantsingh1814/MovieX/blob/master/Screenshot_20170511-185245.png" height="450" width="240">     
 
 
-<img src="https://github.com/nishantsingh1814/MovieX/blob/master/Screenshot_20170511-185248.png" height="450" width="240">
+<img src="https://github.com/nishantsingh1814/MovieX/blob/master/Screenshot_20170511-185248.png" height="450" width="240">      <img src="https://github.com/nishantsingh1814/MovieX/blob/master/WhatsApp%20Image%202017-05-14%20at%2011.32.26.jpeg" height="450" widht="240">
 
 
 <img src="https://github.com/nishantsingh1814/MovieX/blob/master/Screenshot_20170511-185251.png" height="450" width="240">     <img src="https://github.com/nishantsingh1814/MovieX/blob/master/Screenshot_20170511-185310.png" height="450" width="240">     <img src="https://github.com/nishantsingh1814/MovieX/blob/master/Screenshot_20170511-185314.png" height="450" width="240">
