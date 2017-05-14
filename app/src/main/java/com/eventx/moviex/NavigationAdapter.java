@@ -52,7 +52,6 @@ public class NavigationAdapter extends ArrayAdapter {
                     .from(mContext);
             convertView = inflater.inflate( R.layout.navigation_item, parent,false);
         }
-        Log.i("hellop", "onCreateView: ");
 
         final TextView menuTitle = (TextView) convertView.findViewById(R.id.menu_title);
         final ImageView menuIcon = (ImageView) convertView.findViewById(R.id.menu_icon);
