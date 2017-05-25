@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/final_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:theme="@style/MainAppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,10 +47,12 @@
             android:name=".YoutubeActivity"
             android:screenOrientation="landscape" />
         <activity android:name=".TvActivities.SeasonActivity" />
-        <activity android:name=".LoginActivity"
-            android:theme="@style/AppThemeTemp"></activity>
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/AppThemeTemp" />
         <activity android:name=".favourite.FavouriteActivity" />
-        <activity android:name=".rated.RatingsActivity"></activity>
+        <activity android:name=".rated.RatingsActivity" />
+        <activity android:name=".SignUpActivity"></activity>
     </application>
 
 </manifest>

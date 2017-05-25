@@ -2,8 +2,9 @@
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@color/colorPrimaryDarkT"
     android:layout_height="wrap_content"
+    android:background="@color/colorPrimaryDarkT"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <LinearLayout
@@ -12,14 +13,15 @@
         android:orientation="vertical">
 
         <android.support.v7.widget.CardView
+            card_view:cardPreventCornerOverlap="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="7dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:background="@color/colorPrimaryDarkT"
                 android:layout_height="match_parent"
+                android:background="@color/colorPrimaryDarkT"
                 android:orientation="vertical">
 
                 <TextView
@@ -54,12 +56,13 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            card_view:cardPreventCornerOverlap="false"
             android:layout_margin="7dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:background="@color/colorPrimaryDarkT"
                 android:layout_height="match_parent"
+                android:background="@color/colorPrimaryDarkT"
                 android:orientation="vertical">
 
                 <TextView
@@ -94,6 +97,7 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            card_view:cardPreventCornerOverlap="false"
             android:layout_margin="7dp">
 
             <LinearLayout
@@ -112,6 +116,7 @@
                     android:textSize="15sp"
 
                     android:textStyle="bold" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -134,14 +139,15 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
+            card_view:cardPreventCornerOverlap="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="7dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:background="@color/colorPrimaryDarkT"
                 android:layout_height="match_parent"
+                android:background="@color/colorPrimaryDarkT"
                 android:orientation="vertical">
 
                 <TextView
@@ -176,13 +182,14 @@
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
+            card_view:cardPreventCornerOverlap="false"
             android:layout_height="wrap_content"
             android:layout_margin="7dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:background="@color/colorPrimaryDarkT"
                 android:layout_height="match_parent"
+                android:background="@color/colorPrimaryDarkT"
                 android:orientation="vertical">
 
                 <TextView
@@ -207,9 +214,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
+                    android:layout_marginEnd="18dp"
                     android:layout_marginStart="18dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginEnd="18dp"
                     android:textSize="16sp"
                     android:textStyle="normal" />
             </LinearLayout>

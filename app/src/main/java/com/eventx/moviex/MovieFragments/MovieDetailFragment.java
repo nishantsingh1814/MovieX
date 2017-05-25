@@ -429,7 +429,7 @@ public class MovieDetailFragment extends Fragment {
                                     Snackbar.make(view, "Removed From watchlist", Snackbar.LENGTH_SHORT).show();
 
                                     wishlistBtn.setText("Watchlist");
-                                    wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_bookmark_border_black_24dp, 0, 0);
+                                    wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_bookmark_white, 0, 0);
                                     alreadyWatchlist = false;
                                 }
                             }
@@ -449,7 +449,7 @@ public class MovieDetailFragment extends Fragment {
                                 if (response.isSuccessful()) {
                                     Snackbar.make(view, "Added to your Watchlist", Snackbar.LENGTH_SHORT).show();
                                     wishlistBtn.setText("Added to watchlist");
-                                    wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_bookmark_black_24dp, 0, 0);
+                                    wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_bookmark_black_shape, 0, 0);
                                     alreadyWatchlist= true;
                                 }
 
@@ -469,14 +469,14 @@ public class MovieDetailFragment extends Fragment {
                     if(c.getCount()==0){
                         Snackbar.make(view,"Added to you wishlist",Snackbar.LENGTH_SHORT).show();
                         wishlistBtn.setText("Added to wishlist");
-                        wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_bookmark_black_24dp,0,0);
+                        wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_bookmark_black_shape,0,0);
                         SQLiteDatabase db=helper.getWritableDatabase();
                         helper.addToSqlite(db,MovieDbHelper.MOVIE_WISHLIST_TABLE,movieId,getActivity().getIntent().getStringExtra("title"),getActivity().getIntent().getStringExtra("poster"));
                     }
                     else{
                         Snackbar.make(view,"Removed from your wishlist",Snackbar.LENGTH_SHORT).show();
                         wishlistBtn.setText("Wishlist");
-                        wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_bookmark_border_black_24dp,0,0);
+                        wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_bookmark_white,0,0);
                         SQLiteDatabase db=helper.getWritableDatabase();
                         db.delete(MovieDbHelper.MOVIE_WISHLIST_TABLE,MovieDbHelper.COLUMN_MOVIE_ID+" = "+movieId,null);
 
@@ -550,10 +550,10 @@ public class MovieDetailFragment extends Fragment {
             Cursor c = readDb.query(MovieDbHelper.MOVIE_WISHLIST_TABLE, null, MovieDbHelper.COLUMN_MOVIE_ID + " = " + movieId, null, null, null, null);
             if (c.getCount() == 0) {
                 wishlistBtn.setText("Wishlist");
-                wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_bookmark_border_black_24dp, 0, 0);
+                wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_bookmark_white, 0, 0);
             } else {
                 wishlistBtn.setText("Added to wishlist");
-                wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_bookmark_black_24dp, 0, 0);
+                wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_bookmark_black_shape, 0, 0);
             }
         }
     }
@@ -583,11 +583,11 @@ public class MovieDetailFragment extends Fragment {
                     if (sessionId != null) {
                         if (mMovie.getAccount_states().isWatchlist()) {
                             wishlistBtn.setText("Added to WatchList");
-                            wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_bookmark_black_24dp, 0, 0);
+                            wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_bookmark_black_shape, 0, 0);
                             alreadyWatchlist=true;
                         } else {
                             wishlistBtn.setText("Watchlist");
-                            wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_bookmark_border_black_24dp, 0, 0);
+                            wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_bookmark_white, 0, 0);
                             alreadyWatchlist=false;
                         }
                         if (mMovie.getAccount_states().isFavorite()) {
@@ -710,11 +710,11 @@ public class MovieDetailFragment extends Fragment {
                     if (sessionId != null) {
                         if (mMovieDetailsSecond.getAccount_states().isWatchlist()) {
                             wishlistBtn.setText("Added to WatchList");
-                            wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_bookmark_black_24dp, 0, 0);
+                            wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_bookmark_black_shape, 0, 0);
                             alreadyWatchlist=true;
                         } else {
                             wishlistBtn.setText("Watchlist");
-                            wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_bookmark_border_black_24dp, 0, 0);
+                            wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_bookmark_white, 0, 0);
                             alreadyWatchlist=false;
                         }
                         if (mMovieDetailsSecond.getAccount_states().isFavorite()) {

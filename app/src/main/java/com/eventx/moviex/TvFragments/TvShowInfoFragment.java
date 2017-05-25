@@ -382,7 +382,7 @@ public class TvShowInfoFragment extends Fragment {
                                     Snackbar.make(view, "Removed From watchlist", Snackbar.LENGTH_SHORT).show();
 
                                     wishlistBtn.setText("Watchlist");
-                                    wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_bookmark_border_black_24dp, 0, 0);
+                                    wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_bookmark_white, 0, 0);
                                     alreadyWatchlist = false;
                                 }
                             }
@@ -402,7 +402,7 @@ public class TvShowInfoFragment extends Fragment {
                                 if (response.isSuccessful()) {
                                     Snackbar.make(view, "Added to your Watchlist", Snackbar.LENGTH_SHORT).show();
                                     wishlistBtn.setText("Added to watchlist");
-                                    wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_bookmark_black_24dp, 0, 0);
+                                    wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_bookmark_black_shape, 0, 0);
                                     alreadyWatchlist= true;
                                 }
 
@@ -421,14 +421,14 @@ public class TvShowInfoFragment extends Fragment {
                     if(c.getCount()==0){
                         Snackbar.make(view,"Added to your wishlist",Snackbar.LENGTH_SHORT).show();
                         wishlistBtn.setText("Added to wishlist");
-                        wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_bookmark_black_24dp,0,0);
+                        wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_bookmark_black_shape,0,0);
                         SQLiteDatabase db=helper.getWritableDatabase();
                         helper.addToSqlite(db,MovieDbHelper.TV_WISHLIST_TABLE,tvId,getActivity().getIntent().getStringExtra("title"),getActivity().getIntent().getStringExtra("poster"));
                     }
                     else{
                         Snackbar.make(view,"Removed from your wishlist",Snackbar.LENGTH_SHORT).show();
                         wishlistBtn.setText("Wishlist");
-                        wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_bookmark_border_black_24dp,0,0);
+                        wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_bookmark_white,0,0);
                         SQLiteDatabase db=helper.getWritableDatabase();
                         db.delete(MovieDbHelper.TV_WISHLIST_TABLE,MovieDbHelper.COLUMN_TV_ID+" = "+tvId,null);
 
@@ -475,11 +475,11 @@ public class TvShowInfoFragment extends Fragment {
                         if (sessionId != null) {
                             if (mShow.getAccount_states().isWatchlist()) {
                                 wishlistBtn.setText("Added to WatchList");
-                                wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_bookmark_black_24dp, 0, 0);
+                                wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_bookmark_black_shape, 0, 0);
                                 alreadyWatchlist=true;
                             } else {
                                 wishlistBtn.setText("Watchlist");
-                                wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_bookmark_border_black_24dp, 0, 0);
+                                wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_bookmark_white, 0, 0);
                                 alreadyWatchlist=false;
                             }
                             if (mShow.getAccount_states().isFavorite()) {
@@ -579,10 +579,10 @@ public class TvShowInfoFragment extends Fragment {
         Cursor c=readDb.query(MovieDbHelper.TV_WISHLIST_TABLE,null,MovieDbHelper.COLUMN_TV_ID+" = "+tvId,null,null,null,null);
         if(c.getCount()==0){
             wishlistBtn.setText("Wishlist");
-            wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_bookmark_border_black_24dp,0,0);
+            wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_bookmark_white,0,0);
         }else{
             wishlistBtn.setText("Added to wishlist");
-            wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_bookmark_black_24dp,0,0);
+            wishlistBtn.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.ic_bookmark_black_shape,0,0);
         }
     }
 

@@ -70,9 +70,11 @@ public class LoginActivity extends AppCompatActivity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri uri = Uri.parse("https://www.themoviedb.org/account/signup");
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
+//                Uri uri = Uri.parse("https://www.themoviedb.org/account/signup");
+//                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//                startActivity(intent);
+                startActivity(new Intent(LoginActivity.this,SignUpActivity.class));
+                overridePendingTransition(R.anim.slide_right,R.anim.no_change);
             }
         });
         mEmailET = (EditText) findViewById(R.id.email_field);
