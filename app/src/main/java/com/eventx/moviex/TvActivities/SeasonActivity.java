@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.eventx.moviex.MovieModels.EpisodeResults;
 import com.eventx.moviex.Network.ApiClient;
 import com.eventx.moviex.Network.ApiInterface;
@@ -114,7 +115,7 @@ public class SeasonActivity extends AppCompatActivity {
             public void onResponse(Call<EpisodeResults> call, Response<EpisodeResults> response) {
                 if(response.isSuccessful()){
                     poster_path=response.body().getPoster_path();
-                    Picasso.with(SeasonActivity.this).load("https://image.tmdb.org/t/p/w500"+response.body().getPoster_path()).into(mStillImage);
+                    Glide.with(SeasonActivity.this).load("https://image.tmdb.org/t/p/w500"+response.body().getPoster_path()).into(mStillImage);
                 }
             }
 

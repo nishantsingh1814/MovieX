@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.eventx.moviex.LoginAccount.Favourite;
 import com.eventx.moviex.MovieActivities.MoviesDetailsActivity;
 import com.eventx.moviex.MovieFragments.MoviesButtonHandleFragment;
@@ -103,7 +104,7 @@ public class FavoriteMovieAdapter extends RecyclerView.Adapter<FavoriteMovieAdap
        Movie movie = mMovie.get(position);
 
 
-        Picasso.with(mContext).load("https://image.tmdb.org/t/p/w500" + movie.getPoster_path()).into(holder.movieImage);
+        Glide.with(mContext).load("https://image.tmdb.org/t/p/w500" + movie.getPoster_path()).into(holder.movieImage);
         holder.movieTitle.setText(movie.getTitle());
 
         holder.cardMenu.setOnClickListener(new View.OnClickListener() {

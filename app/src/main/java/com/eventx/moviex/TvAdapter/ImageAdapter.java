@@ -14,6 +14,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.eventx.moviex.R;
 import com.eventx.moviex.SingleImageActivity;
 import com.eventx.moviex.TvModels.Poster;
@@ -44,7 +45,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageHolder>
 
     @Override
     public void onBindViewHolder(ImageHolder holder, int position) {
-        Picasso.with(mContext).load("https://image.tmdb.org/t/p/w500"+mPosters.get(position).getFile_path()).into(holder.poster);
+        Glide.with(mContext).load("https://image.tmdb.org/t/p/w500"+mPosters.get(position).getFile_path()).into(holder.poster);
     }
 
     @Override

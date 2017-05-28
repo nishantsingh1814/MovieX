@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.eventx.moviex.LoginAccount.WatchList;
 import com.eventx.moviex.MovieFragments.MoviesButtonHandleFragment;
 import com.eventx.moviex.Network.ApiClient;
@@ -105,7 +106,7 @@ public class RatedTVAdapter extends RecyclerView.Adapter<RatedTVAdapter.Vertical
         TvShow movie = mMovie.get(position);
 
 
-        Picasso.with(mContext).load("https://image.tmdb.org/t/p/w500" + movie.getPoster_path()).into(holder.movieImage);
+        Glide.with(mContext).load("https://image.tmdb.org/t/p/w500" + movie.getPoster_path()).into(holder.movieImage);
         holder.movieTitle.setText(movie.getName());
 
         holder.rating.setText(""+movie.getRating());

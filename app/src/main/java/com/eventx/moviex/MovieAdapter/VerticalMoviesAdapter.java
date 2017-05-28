@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.eventx.moviex.Database.MovieDbHelper;
 import com.eventx.moviex.LoginAccount.WatchList;
 import com.eventx.moviex.MovieModels.Movie;
@@ -258,7 +259,7 @@ public class VerticalMoviesAdapter extends RecyclerView.Adapter<VerticalMoviesAd
             newOverview += arr[i] + " ";
         }
         holder.movieOverview.setText(newOverview);
-        Picasso.with(mContext).load("https://image.tmdb.org/t/p/w500" + movie.getPoster_path()).into(holder.movieImage);
+        Glide.with(mContext).load("https://image.tmdb.org/t/p/w500" + movie.getPoster_path()).into(holder.movieImage);
         holder.movieTitle.setText(position + 1 + ". " + movie.getTitle());
         holder.movieRate.setText(movie.getVote_average() + "");
     }

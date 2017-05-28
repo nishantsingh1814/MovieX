@@ -20,6 +20,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.eventx.moviex.Database.MovieDbHelper;
 import com.eventx.moviex.LoginActivity;
 import com.eventx.moviex.MovieAdapter.CastAdapter;
@@ -103,7 +104,7 @@ public class SingleEpisodeActivity extends AppCompatActivity {
         adapter = new GuestStarAdapter(guestStars, this);
         guestStarList.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-        Picasso.with(this).load("https://image.tmdb.org/t/p/w500" + episode.getStill_path()).into(episodePoster);
+        Glide.with(this).load("https://image.tmdb.org/t/p/w500" + episode.getStill_path()).into(episodePoster);
         episodeName.setText(episode.getName());
         episodeOverview.setText(episode.getOverview());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

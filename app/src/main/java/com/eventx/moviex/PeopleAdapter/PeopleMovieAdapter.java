@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.eventx.moviex.MovieActivities.MoviesDetailsActivity;
 import com.eventx.moviex.PeopleModels.MovieCredits;
 import com.eventx.moviex.PeopleModels.PeopleMovieCast;
@@ -48,7 +49,7 @@ public class PeopleMovieAdapter extends RecyclerView.Adapter<PeopleMovieAdapter.
     @Override
     public void onBindViewHolder(PeopleMovieHolder holder, int position) {
         holder.peopleCharacter.setText(mPeopleMovie.get(position).getCharacter());
-        Picasso.with(mContext).load("https://image.tmdb.org/t/p/w500"+ mPeopleMovie.get(position).getPoster_path()).into(holder.moviePoster);
+        Glide.with(mContext).load("https://image.tmdb.org/t/p/w500"+ mPeopleMovie.get(position).getPoster_path()).into(holder.moviePoster);
         holder.movieName.setText(mPeopleMovie.get(position).getTitle());
     }
 

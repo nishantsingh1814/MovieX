@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.eventx.moviex.Database.MovieDbHelper;
 import com.eventx.moviex.LoginAccount.WatchList;
 import com.eventx.moviex.MovieModels.MovieDetails;
@@ -222,7 +223,7 @@ public class VerticalTvAdapter extends RecyclerView.Adapter<VerticalTvAdapter.Ve
         }
 
 
-        Picasso.with(mContext).load("https://image.tmdb.org/t/p/w500" + show.getPoster_path()).into(holder.tvShowImage);
+        Glide.with(mContext).load("https://image.tmdb.org/t/p/w500" + show.getPoster_path()).into(holder.tvShowImage);
         holder.tvShowTitle.setText(show.getName());
         holder.tvShowRate.setText(show.getVote_average() + "");
 

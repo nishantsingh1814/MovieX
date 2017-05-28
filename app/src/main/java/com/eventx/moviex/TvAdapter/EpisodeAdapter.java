@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.eventx.moviex.Database.MovieDbHelper;
 import com.eventx.moviex.R;
 import com.eventx.moviex.TvModels.Episodes;
@@ -110,7 +111,7 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.EpisodeH
         });
         c.close();
 //        holder.episodeNumber.setText("Episode "+episode.getEpisode_number());
-        Picasso.with(mContext).load("https://image.tmdb.org/t/p/w500" + episode.getStill_path()).into(holder.episodeImage);
+        Glide.with(mContext).load("https://image.tmdb.org/t/p/w500" + episode.getStill_path()).into(holder.episodeImage);
     }
 
     @Override

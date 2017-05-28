@@ -75,7 +75,7 @@ public class TvEpisodeFragment extends Fragment implements EpisodeAdapter.ListIt
                     if (response.isSuccessful()) {
                         mEpisode.addAll(response.body().getEpisodes());
                         adapter.notifyDataSetChanged();
-                    }else{
+                    } else {
                         fetchData();
                     }
                 }
@@ -89,11 +89,12 @@ public class TvEpisodeFragment extends Fragment implements EpisodeAdapter.ListIt
 
     @Override
     public void onListItemClick(int clickedPosition) {
-        Intent episodeDetailIntent = new Intent(getContext(), SingleEpisodeActivity.class);
-        episodeDetailIntent.putExtra("tvShow", getActivity().getIntent().getStringExtra("title"));
-        episodeDetailIntent.putExtra("Episode", mEpisode.get(clickedPosition));
-        startActivity(episodeDetailIntent);
-        getActivity().overridePendingTransition(R.anim.slide_right, R.anim.no_change);
-
+        if (getActivity() != null) {
+            Intent episodeDetailIntent = new Intent(getContext(), SingleEpisodeActivity.class);
+            episodeDetailIntent.putExtra("tvShow", getActivity().getIntent().getStringExtra("title"));
+            episodeDetailIntent.putExtra("Episode", mEpisode.get(clickedPosition));
+            startActivity(episodeDetailIntent);
+            getActivity().overridePendingTransition(R.anim.slide_right, R.anim.no_change);
+        }
     }
 }

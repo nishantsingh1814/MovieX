@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.eventx.moviex.MovieActivities.MoviesDetailsActivity;
 import com.eventx.moviex.MovieModels.Movie;
 import com.eventx.moviex.R;
@@ -93,7 +94,7 @@ public class UpcomingMoviesAdapter extends RecyclerView.Adapter<UpcomingMoviesAd
 
         date = format1.format(date1);
         holder.movieRelease.setText(date);
-        Picasso.with(mContext).load("https://image.tmdb.org/t/p/w500"+movie.getPoster_path()).into(holder.movieImage);
+        Glide.with(mContext).load("https://image.tmdb.org/t/p/w500"+movie.getPoster_path()).into(holder.movieImage);
         holder.movieTitle.setText(movie.getTitle());
 
     }

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.eventx.moviex.PeopleModels.PopularPeople;
 import com.eventx.moviex.R;
 import com.squareup.picasso.Picasso;
@@ -48,7 +49,7 @@ public class PopularPeopleAdapter extends RecyclerView.Adapter<PopularPeopleAdap
 
     @Override
     public void onBindViewHolder(PopularPeopleHolder holder, int position) {
-        Picasso.with(mContext).load("https://image.tmdb.org/t/p/w500"+mPopularPeople.get(position).getProfile_path()).into(holder.peopleProfile);
+        Glide.with(mContext).load("https://image.tmdb.org/t/p/w500"+mPopularPeople.get(position).getProfile_path()).into(holder.peopleProfile);
         holder.peopleName.setText(mPopularPeople.get(position).getName());
     }
 

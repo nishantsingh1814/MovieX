@@ -32,6 +32,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.eventx.moviex.Database.MovieDbHelper;
 import com.eventx.moviex.LoginAccount.AccountState;
 import com.eventx.moviex.LoginAccount.Favourite;
@@ -190,10 +191,10 @@ public class MovieDetailFragment extends Fragment {
                     TextView title = (TextView) v.findViewById(R.id.title);
 
                     if(mMovie!=null){
-                        Picasso.with(getContext()).load("https://image.tmdb.org/t/p/w500"+mMovie.getPoster_path()).into(image);
+                        Glide.with(getContext()).load("https://image.tmdb.org/t/p/w500"+mMovie.getPoster_path()).into(image);
                         title.setText(mMovie.getTitle());
                     }else{
-                        Picasso.with(getContext()).load("https://image.tmdb.org/t/p/w500"+mMovieDetailsSecond.getPoster_path()).into(image);
+                        Glide.with(getContext()).load("https://image.tmdb.org/t/p/w500"+mMovieDetailsSecond.getPoster_path()).into(image);
 
                         title.setText(mMovieDetailsSecond.getTitle());
 

@@ -27,6 +27,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.eventx.moviex.MainActivity;
 import com.eventx.moviex.MovieActivities.MoviesActivity;
 import com.eventx.moviex.MovieActivities.MoviesDetailsActivity;
@@ -139,7 +140,7 @@ public class PeopleDetailsActivity extends AppCompatActivity {
             public void onResponse(Call<PeopleInfo> call, Response<PeopleInfo> response) {
                 if (response.isSuccessful()) {
                     poster_path=response.body().getProfile_path();
-                    Picasso.with(PeopleDetailsActivity.this).load("https://image.tmdb.org/t/p/w500" + response.body().getProfile_path()).into(mProfileImage);
+                    Glide.with(PeopleDetailsActivity.this).load("https://image.tmdb.org/t/p/w500" + response.body().getProfile_path()).into(mProfileImage);
                 }
                 else {
                     fetchData();

@@ -29,6 +29,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.eventx.moviex.Database.MovieDbHelper;
 import com.eventx.moviex.LoginAccount.Favourite;
 import com.eventx.moviex.LoginAccount.WatchList;
@@ -269,10 +270,10 @@ public class TvShowInfoFragment extends Fragment {
                         }
                     });
                     if(mShow!=null){
-                        Picasso.with(getContext()).load("https://image.tmdb.org/t/p/w500" + mShow.getPoster_path()).into(image);
+                        Glide.with(getContext()).load("https://image.tmdb.org/t/p/w500" + mShow.getPoster_path()).into(image);
                         title.setText(mShow.getName());
                     }else{
-                        Picasso.with(getContext()).load("https://image.tmdb.org/t/p/w500" + mShowSecond.getPoster_path()).into(image);
+                        Glide.with(getContext()).load("https://image.tmdb.org/t/p/w500" + mShowSecond.getPoster_path()).into(image);
                         title.setText(mShowSecond.getName());
                     }
                     dialog.show();
@@ -459,10 +460,10 @@ public class TvShowInfoFragment extends Fragment {
                     if (response.isSuccessful()) {
                         mShow = new TvShowDetails();
 
-                        Picasso.with(getContext()).load("https://image.tmdb.org/t/p/w500" + response.body().getPoster_path()).into(poster);
+                        Glide.with(getContext()).load("https://image.tmdb.org/t/p/w500" + response.body().getPoster_path()).into(poster);
                         startPostponedEnterTransition();
                         title.setText(response.body().getName());
-                        Picasso.with(getContext()).load("https://image.tmdb.org/t/p/w500" + response.body().getBackdrop_path()).into(mBackdropImage);
+                        Glide.with(getContext()).load("https://image.tmdb.org/t/p/w500" + response.body().getBackdrop_path()).into(mBackdropImage);
                         mShow = response.body();
                         for (int i = 0; i < mShow.getGenres().size(); i++) {
                             if (i < mShow.getGenres().size() - 1) {
@@ -603,10 +604,10 @@ public class TvShowInfoFragment extends Fragment {
                     if (response.isSuccessful()) {
                         mShowSecond = new TvShowDetailsSecond();
 
-                        Picasso.with(getContext()).load("https://image.tmdb.org/t/p/w500" + response.body().getPoster_path()).into(poster);
+                        Glide.with(getContext()).load("https://image.tmdb.org/t/p/w500" + response.body().getPoster_path()).into(poster);
                         startPostponedEnterTransition();
                         title.setText(response.body().getName());
-                        Picasso.with(getContext()).load("https://image.tmdb.org/t/p/w500" + response.body().getBackdrop_path()).into(mBackdropImage);
+                        Glide.with(getContext()).load("https://image.tmdb.org/t/p/w500" + response.body().getBackdrop_path()).into(mBackdropImage);
                         mShowSecond = response.body();
                         for (int i = 0; i < mShowSecond.getGenres().size(); i++) {
                             if (i < mShowSecond.getGenres().size() - 1) {

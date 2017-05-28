@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.eventx.moviex.Database.MovieDbHelper;
 import com.eventx.moviex.MovieActivities.MoviesDetailsActivity;
 import com.eventx.moviex.MovieFragments.MoviesButtonHandleFragment;
@@ -128,7 +129,7 @@ public class VerticalWishlistAdapter extends RecyclerView.Adapter<VerticalWishli
             }
         });
 
-        Picasso.with(mContext).load("https://image.tmdb.org/t/p/w500" + movie.getImage()).into(holder.movieImage);
+        Glide.with(mContext).load("https://image.tmdb.org/t/p/w500" + movie.getImage()).into(holder.movieImage);
         holder.movieTitle.setText(movie.getTitle());
 
 

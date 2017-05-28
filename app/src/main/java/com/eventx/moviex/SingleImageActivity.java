@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.r0adkll.slidr.Slidr;
 import com.squareup.picasso.Picasso;
 
@@ -31,7 +32,7 @@ public class SingleImageActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         image = (ImageView) findViewById(R.id.image);
-        Picasso.with(this).load("https://image.tmdb.org/t/p/w500" + getIntent().getStringExtra("image")).into(image);
+        Glide.with(this).load("https://image.tmdb.org/t/p/w500" + getIntent().getStringExtra("image")).into(image);
 
 
     }

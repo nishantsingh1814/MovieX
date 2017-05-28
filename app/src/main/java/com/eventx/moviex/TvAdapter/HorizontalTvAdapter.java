@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.eventx.moviex.MovieActivities.MoviesDetailsActivity;
 import com.eventx.moviex.R;
 import com.eventx.moviex.TvActivities.TvShowDetailsActivity;
@@ -47,7 +48,7 @@ public class HorizontalTvAdapter extends RecyclerView.Adapter<HorizontalTvAdapte
     public void onBindViewHolder(HorizontalTvHolder holder, int position) {
         TvShow show=mShow.get(position);
 
-        Picasso.with(mContext).load("https://image.tmdb.org/t/p/w500"+show.getPoster_path()).into(holder.tvShowImage);
+        Glide.with(mContext).load("https://image.tmdb.org/t/p/w500"+show.getPoster_path()).into(holder.tvShowImage);
         holder.tvShowTitle.setText(show.getName());
     }
 

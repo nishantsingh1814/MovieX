@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.eventx.moviex.MovieModels.Cast;
 import com.eventx.moviex.PeopleActivities.PeopleDetailsActivity;
 import com.eventx.moviex.R;
@@ -45,7 +46,7 @@ public class GuestStarAdapter extends RecyclerView.Adapter<GuestStarAdapter.Cast
 
         holder.castName.setText(cast.getName());
         if(cast.getProfile_path()!=null) {
-            Picasso.with(mContext).load("https://image.tmdb.org/t/p/w500" + cast.getProfile_path()).into(holder.castImage);
+            Glide.with(mContext).load("https://image.tmdb.org/t/p/w500" + cast.getProfile_path()).into(holder.castImage);
         }else{
             holder.castImage.setImageResource(R.drawable.profile);
         }
