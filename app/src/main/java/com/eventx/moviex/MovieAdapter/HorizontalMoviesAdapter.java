@@ -15,7 +15,6 @@ import com.bumptech.glide.Glide;
 import com.eventx.moviex.MovieActivities.MoviesDetailsActivity;
 import com.eventx.moviex.MovieModels.Movie;
 import com.eventx.moviex.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 

@@ -29,7 +29,6 @@ import com.eventx.moviex.MovieModels.MovieDetails;
 import com.eventx.moviex.Network.ApiClient;
 import com.eventx.moviex.Network.ApiInterface;
 import com.eventx.moviex.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 

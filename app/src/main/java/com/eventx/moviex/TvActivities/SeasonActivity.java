@@ -29,7 +29,6 @@ import com.eventx.moviex.R;
 import com.eventx.moviex.SingleImageActivity;
 import com.eventx.moviex.TvFragments.TvEpisodeFragment;
 import com.eventx.moviex.TvFragments.TvImagesFragment;
-import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
 import retrofit2.Callback;

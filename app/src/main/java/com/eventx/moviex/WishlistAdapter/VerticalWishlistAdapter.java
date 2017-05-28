@@ -28,7 +28,6 @@ import com.eventx.moviex.MovieModels.MovieDetails;
 import com.eventx.moviex.R;
 import com.eventx.moviex.TvActivities.TvShowDetailsActivity;
 import com.eventx.moviex.Wishlist.MovieWishlist;
-import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 

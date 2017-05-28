@@ -15,7 +15,6 @@ import com.eventx.moviex.MovieActivities.MoviesDetailsActivity;
 import com.eventx.moviex.R;
 import com.eventx.moviex.TvActivities.TvShowDetailsActivity;
 import com.eventx.moviex.TvModels.TvShow;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 

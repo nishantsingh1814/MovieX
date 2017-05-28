@@ -18,7 +18,6 @@ import com.bumptech.glide.Glide;
 import com.eventx.moviex.R;
 import com.eventx.moviex.SingleImageActivity;
 import com.eventx.moviex.TvModels.Poster;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 

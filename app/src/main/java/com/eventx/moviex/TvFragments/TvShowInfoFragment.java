@@ -53,7 +53,6 @@ import com.eventx.moviex.TvModels.TvShowDetails;
 import com.eventx.moviex.TvModels.TvShowDetailsSecond;
 import com.eventx.moviex.YoutubeActivity;
 import com.google.android.gms.ads.AdView;
-import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

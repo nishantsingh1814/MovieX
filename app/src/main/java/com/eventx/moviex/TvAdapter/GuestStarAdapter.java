@@ -14,7 +14,6 @@ import com.eventx.moviex.MovieModels.Cast;
 import com.eventx.moviex.PeopleActivities.PeopleDetailsActivity;
 import com.eventx.moviex.R;
 import com.eventx.moviex.TvModels.GuestStars;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 

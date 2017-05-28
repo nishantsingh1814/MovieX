@@ -62,7 +62,6 @@ import com.eventx.moviex.YoutubeActivity;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.common.api.Api;
-import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -79,7 +78,7 @@ import static android.R.attr.maxWidth;
 import static android.R.attr.rating;
 import static android.R.attr.typeface;
 import static android.content.ContentValues.TAG;
-import static com.squareup.picasso.Picasso.with;
+import static com.bumptech.glide.Glide.with;
 
 /**
  * Created by Nishant on 3/27/2017.
@@ -191,10 +190,10 @@ public class MovieDetailFragment extends Fragment {
                     TextView title = (TextView) v.findViewById(R.id.title);
 
                     if(mMovie!=null){
-                        Glide.with(getContext()).load("https://image.tmdb.org/t/p/w500"+mMovie.getPoster_path()).into(image);
+                        with(getContext()).load("https://image.tmdb.org/t/p/w500"+mMovie.getPoster_path()).into(image);
                         title.setText(mMovie.getTitle());
                     }else{
-                        Glide.with(getContext()).load("https://image.tmdb.org/t/p/w500"+mMovieDetailsSecond.getPoster_path()).into(image);
+                        with(getContext()).load("https://image.tmdb.org/t/p/w500"+mMovieDetailsSecond.getPoster_path()).into(image);
 
                         title.setText(mMovieDetailsSecond.getTitle());
 
@@ -575,9 +574,9 @@ public class MovieDetailFragment extends Fragment {
                     mMovie = new MovieDetails();
 
 
-                    with(getActivity()).load("https://image.tmdb.org/t/p/w500" + response.body().getPoster_path()).into(mMoviePoster);
+                    Glide.with(getActivity()).load("https://image.tmdb.org/t/p/w500" + response.body().getPoster_path()).into(mMoviePoster);
 
-                    with(getContext()).load("https://image.tmdb.org/t/p/w500" + response.body().getBackdrop_path()).into(mBackdropImage);
+                    Glide.with(getContext()).load("https://image.tmdb.org/t/p/w500" + response.body().getBackdrop_path()).into(mBackdropImage);
                     movieTitle.setText(response.body().getTitle());
                     mMovie = response.body();
                     overviewTv.setText(mMovie.getOverview());

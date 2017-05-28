@@ -12,7 +12,6 @@ import com.bumptech.glide.Glide;
 import com.eventx.moviex.PeopleModels.MovieCredits;
 import com.eventx.moviex.PeopleModels.TvCredits;
 import com.eventx.moviex.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 

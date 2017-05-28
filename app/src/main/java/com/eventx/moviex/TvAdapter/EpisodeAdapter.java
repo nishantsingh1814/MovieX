@@ -17,7 +17,6 @@ import com.eventx.moviex.Database.MovieDbHelper;
 import com.eventx.moviex.R;
 import com.eventx.moviex.TvModels.Episodes;
 import com.eventx.moviex.TvModels.TvShow;
-import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

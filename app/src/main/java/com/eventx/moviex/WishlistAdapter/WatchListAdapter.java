@@ -30,7 +30,6 @@ import com.eventx.moviex.Network.ApiInterface;
 import com.eventx.moviex.R;
 import com.eventx.moviex.TvActivities.TvShowDetailsActivity;
 import com.eventx.moviex.Wishlist.MovieWishlist;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 

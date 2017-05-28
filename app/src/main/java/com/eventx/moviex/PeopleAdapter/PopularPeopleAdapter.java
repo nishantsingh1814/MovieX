@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.eventx.moviex.PeopleModels.PopularPeople;
 import com.eventx.moviex.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 

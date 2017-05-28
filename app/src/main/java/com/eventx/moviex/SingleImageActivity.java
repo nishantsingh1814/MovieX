@@ -14,7 +14,6 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.r0adkll.slidr.Slidr;
-import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 

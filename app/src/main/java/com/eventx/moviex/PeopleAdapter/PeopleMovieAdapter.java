@@ -17,7 +17,6 @@ import com.eventx.moviex.MovieActivities.MoviesDetailsActivity;
 import com.eventx.moviex.PeopleModels.MovieCredits;
 import com.eventx.moviex.PeopleModels.PeopleMovieCast;
 import com.eventx.moviex.R;
-import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 

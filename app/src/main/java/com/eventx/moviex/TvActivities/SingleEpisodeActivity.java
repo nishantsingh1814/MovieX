@@ -32,7 +32,6 @@ import com.eventx.moviex.TvAdapter.GuestStarAdapter;
 import com.eventx.moviex.TvModels.Episodes;
 import com.eventx.moviex.TvModels.GuestStars;
 import com.r0adkll.slidr.Slidr;
-import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -192,7 +191,7 @@ public class SingleEpisodeActivity extends AppCompatActivity {
                             });
                         }
                     });
-                    Picasso.with(SingleEpisodeActivity.this).load("https://image.tmdb.org/t/p/w500" + episode.getStill_path()).into(image);
+                    Glide.with(SingleEpisodeActivity.this).load("https://image.tmdb.org/t/p/w500" + episode.getStill_path()).into(image);
                     title.setText(episode.getName());
                     dialog.show();
                 } else {

@@ -47,7 +47,6 @@ import com.eventx.moviex.TvFragments.TvImagesFragment;
 import com.eventx.moviex.TvFragments.TvShowInfoFragment;
 import com.eventx.moviex.TvModels.TvShow;
 import com.eventx.moviex.Wishlist.WishlistAcitvity;
-import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
 import retrofit2.Callback;

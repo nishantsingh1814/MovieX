@@ -28,7 +28,6 @@ import com.eventx.moviex.R;
 import com.eventx.moviex.TvModels.TvShow;
 import com.eventx.moviex.TvModels.TvShowD;
 import com.eventx.moviex.TvModels.TvShowDetails;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
