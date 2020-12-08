@@ -1,4 +1,4 @@
-# MovieX
+# MovieX (70k+ downloads)
 
 MovieX is a Movies and Tv Explorer developed using <h4>The Movie Db api</h4>
 
